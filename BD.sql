@@ -1,4 +1,4 @@
-INSERT INTO Especies (nombre_especie)
+INSERT INTO tblEspecies (nombre_especie)
 VALUES
     ('Perro'),
     ('Gato'),
@@ -11,3 +11,8 @@ VALUES
     ('Caballo'),
     ('Raton'),
     ('Serpiente');
+
+INSERT INTO tblTipoUsuario (tipo_usuario)
+VALUES
+    ('Cliente'),
+    ('Veterinario');
