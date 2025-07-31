@@ -1,3 +1,10 @@
+INSERT INTO tblestados(nombre_estado)
+VALUES
+("Pendiente"),
+("Confirmada"),
+("Cancelada"),
+("Finalizada");
+
 CREATE TABLE "public"."tblGenero" (
   "id_genero" serial PRIMARY KEY,
   "nombre_genero" varchar(20) NOT NULL
