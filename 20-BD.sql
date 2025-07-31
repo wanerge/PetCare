@@ -1,17 +1,12 @@
-
-
-INSERT INTO tblEstados(nombre_estado)
+INSERT INTO tblEstados (nombre_estado)
 VALUES
-("Pendiente"),
-("Confirmada"),
-("Cancelada"),
-("Finalizada");
+('Pendiente'),
+('Confirmada'),
+('Cancelada'),
+('Finalizada');
 
-
-
-INSERT INTO tblGenero (nombre_genero) 
+INSERT INTO tblGeneros (nombre_genero) 
 VALUES  ('Macho'), ('Hembra');
-
 
 INSERT INTO tblEspecialidades (nombre_especialidad) 
 VALUES  ('Medicina Interna'), 
@@ -40,7 +35,7 @@ VALUES
     ('Raton'),
     ('Serpiente');
 
-INSERT INTO tblTipoUsuario (tipo_usuario)
+INSERT INTO tblTipoUsuarios (tipo_usuario)
 VALUES
     ('Cliente'),
     ('Veterinario');
