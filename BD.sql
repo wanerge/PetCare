@@ -1,4 +1,50 @@
 
+
+INSERT INTO tblEstados(nombre_estado)
+VALUES
+("Pendiente"),
+("Confirmada"),
+("Cancelada"),
+("Finalizada");
+
+
+
+INSERT INTO tblGenero (nombre_genero) 
+VALUES  ('Macho'), ('Hembra');
+
+
+INSERT INTO tblEspecialidades (nombre_especialidad) 
+VALUES  ('Medicina Interna'), 
+        ('Cirugía'),
+        ('Dermatología'),
+        ('Cardiología'),
+        ('Oncología'),
+        ('Neurología'),
+        ('Oftalmología'),
+        ('Ortopedia'),
+        ('Anestesiología'),
+        ('Reproducción'),
+        ('Animales De Compañia');
+
+INSERT INTO tblEspecies (nombre_especie)
+VALUES
+    ('Perro'),
+    ('Gato'),
+    ('Hamster'),
+    ('Huron'),
+    ('Conejo'),
+    ('Tortuga'),
+    ('Lagarto'),
+    ('Ave'),
+    ('Caballo'),
+    ('Raton'),
+    ('Serpiente');
+
+INSERT INTO tblTipoUsuario (tipo_usuario)
+VALUES
+    ('Cliente'),
+    ('Veterinario');
+    
 INSERT INTO tblServicios (nombre_servicio, descripcion, precio) 
 VALUES 
   ('Consulta general', 'Evaluación médica básica para revisar la salud general, síntomas o signos de enfermedad.', 25000),
