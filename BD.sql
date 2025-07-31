@@ -1,4 +1,14 @@
 
+
+INSERT INTO tblestados(nombre_estado)
+VALUES
+("Pendiente"),
+("Confirmada"),
+("Cancelada"),
+("Finalizada");
+
+
+
 INSERT INTO tblGenero (nombre_genero) 
 VALUES  ('Macho'), ('Hembra');
 
