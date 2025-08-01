@@ -1,3 +1,4 @@
+package com.udea.petCare.entity;
 import javax.annotation.processing.Generated;
 
 @Entity

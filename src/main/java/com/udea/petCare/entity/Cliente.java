@@ -1,3 +1,5 @@
+package com.udea.petCare.entity;
+
 @Entity
 @Table(name="tblClientes")
 @Data
@@ -28,8 +30,9 @@ public class Cliente {
     private String direccion;
 
     @OneToOne
-    @JoinColumn(name = "id_ususario")
-    private Long idUsuario;
+    @JoinColumn(name = "id_usuario", unique= true)
+    @NonNull
+    private Usuario usuario;
 
 
 }

@@ -1,3 +1,5 @@
+package com.udea.petCare.entity;
+
 import java.security.Timestamp;
 
 @Entity
