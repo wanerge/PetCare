@@ -1,6 +1,8 @@
 package com.udea.petCare.entity;
-import javax.annotation.processing.Generated;
 
+import lombok.*;
+
+import jakarta.persistence.*;
 @Entity
 @Table(name="tblEspecies")
 @Data

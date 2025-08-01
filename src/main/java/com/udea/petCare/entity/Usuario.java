@@ -1,7 +1,8 @@
 package com.udea.petCare.entity;
 
 import java.security.Timestamp;
-
+import lombok.*;
+import jakarta.persistence.*;
 @Entity
 @Table(name="tblUsuarios")
 @Data

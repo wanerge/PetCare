@@ -1,5 +1,8 @@
 package com.udea.petCare.entity;
 
+import lombok.*;
+import jakarta.persistence.*;
+
 @Entity
 @Table(name="tblClientes")
 @Data
