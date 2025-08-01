@@ -4,6 +4,7 @@ import lombok.*;
 import java.io.Serializable;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Data
 @RequiredArgsConstructor
@@ -20,5 +21,6 @@ public class TipoUsuarios implements Serializable{
 
     @Column(name = "tipo_usuario", nullable = false, length = 20)
     @NonNull
+    @NotBlank
     private String tipo_usuario;
 }
