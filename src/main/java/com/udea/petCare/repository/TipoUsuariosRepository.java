@@ -7,5 +7,5 @@ import com.udea.petCare.entity.TipoUsuarios;
 
 @Repository
 public interface TipoUsuariosRepository extends JpaRepository<TipoUsuarios, Long>{
-
+    
 }
