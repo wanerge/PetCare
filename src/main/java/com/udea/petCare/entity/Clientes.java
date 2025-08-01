@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class Cliente {
+public class Clientes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class Cliente {
     @OneToOne
     @JoinColumn(name = "id_usuario", unique= true)
     @NonNull
-    private Usuario usuario;
+    private Usuarios usuario;
 
 
 }
