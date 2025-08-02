@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.udea.petCare.entity.Citas;
 import com.udea.petCare.repository.CitasRepository;
 
 @Service
@@ -14,16 +15,16 @@ public class CitasService {
     @Autowired
     private CitasRepository citasRepository;
 
-    public List<CitasDTO> findAll() {
+    public List<Citas> listarCitas() {
         return citasRepository.findAll().stream().collect(Collectors.toList());
     }
 
-    public CitasDTO save(CitasDTO citasDTO) {
+    public Citas save(Citas citasDTO) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'save'");
     }
 
-    public CitasDTO update(Long id, CitasDTO citasDTO) {
+    public Citas update(Long id,Citas citasDTO) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
@@ -32,7 +33,9 @@ public class CitasService {
         citasRepository.deleteById(id);
     }
 
-    private CitasDTO convertToDTO(Citas cita) {
-        return new CitasDTO(cita);
+    private Citas convertToDTO(Citas cita) {
+        return new Citas();
     }
+
+    
 }
