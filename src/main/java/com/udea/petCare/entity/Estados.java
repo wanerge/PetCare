@@ -1,4 +1,4 @@
-package com.usdea.petCare.entity;
+package com.udea.petCare.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
