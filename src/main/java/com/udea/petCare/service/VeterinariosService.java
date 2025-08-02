@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.udea.petCare.dto.VeterinariosDTO;
 
 @Service
-public interface VeterinariosService {
+public class VeterinariosService {
     
     @Autowired
     private VeterinariosRepository veterinariosRepository;
@@ -18,7 +18,7 @@ public interface VeterinariosService {
     }
 
     @Override
-    public VeterinariosDTO save(VeterinariosDTO alumnoDTO) {
+    public VeterinariosDTO save(VeterinariosDTO veterinariosDTO) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'save'");
     }
