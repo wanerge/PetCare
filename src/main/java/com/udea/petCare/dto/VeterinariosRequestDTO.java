@@ -1,18 +1,17 @@
 package com.udea.petCare.dto;
 
-import java.util.List;
-
 import lombok.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VeterinariosDTO {
+public class VeterinariosRequestDTO {
 
-    private long id;
     private String nombre;
     private String apellido;
     private String telefono;
     private String correo;
-    private List<String> especialidades;
+    private String clave;
+    private List<Long> especialidadesIds;
 }

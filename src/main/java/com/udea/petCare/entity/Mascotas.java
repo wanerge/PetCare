@@ -2,15 +2,17 @@ package com.udea.petCare.entity;
 
 import lombok.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.security.Timestamp;
 
-@Entity
-@Table(name = "tblMascotas")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
-public class Mascotas {
+@Entity
+@Table(name = "tblMascotas")
+public class Mascotas implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +24,9 @@ public class Mascotas {
     @NonNull
     private Clientes cliente;
 
-    @Column(name = "nombre", nullable = false, length = 50)
-    @NonNull 
+    @Column(name = "nombre", length = 50)
+    @NonNull
+    @NotBlank
     private String nombre;
 
     @ManyToOne
@@ -31,7 +34,7 @@ public class Mascotas {
     @NonNull
     private Especies especie;
 
-    @Column(name = "fecha_nacimiento", nullable = false)
+    @Column(name = "fecha_nacimiento")
     @NonNull
     private Timestamp fecha_nacimiento;
 
@@ -40,8 +43,8 @@ public class Mascotas {
     @NonNull
     private Generos genero;
 
-    @Column(name = "peso", nullable = false, length = 20)
+    @Column(name = "peso", precision = 20, scale = 2)
     @NonNull
-    private double peso;
-    
+    @NotBlank
+    private BigDecimal peso;
 }

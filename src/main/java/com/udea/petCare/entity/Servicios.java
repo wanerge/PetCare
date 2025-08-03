@@ -1,32 +1,35 @@
 package com.udea.petCare.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @Entity
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tblServicios")
-public class Servicios {
-    
+public class Servicios implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_servicio")
-    int id_servicio;
+    private long id_servicio;
 
-    @Column(name = "nombre", nullable = false, length = 30)
+    @Column(name = "nombre_servicio", length = 50)
     @NonNull
-    String nombre;
+    @NotBlank
+    private String nombre_servicio;
 
-    @Column(name = "descripcion", nullable = false)
+    @Column(name = "descripcion")
     @NonNull
-    String descripcion;
+    @NotBlank
+    private String descripcion;
 
-    @Column(name = "precio", nullable = false, length = 20)
+    @Column(name = "precio", precision = 20, scale = 2)
     @NonNull
-    float precio;
-
+    @NotBlank
+    private BigDecimal precio;
 }

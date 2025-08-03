@@ -1,27 +1,27 @@
 package com.udea.petCare.entity;
 
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
+import lombok.*;
 
-import lombok.*;    
-
-@Entity
-@Table(name="tblVeterinarioXEspecialidad")
 @Data
 @AllArgsConstructor
-@NoArgsConstructor 
+@NoArgsConstructor
+@Entity
+@Table(name = "tblVeterinarioXEspecialidad")
+public class VeterinarioXEspecialidad implements Serializable {
 
-class VeterinarioXEspecialidad implements Serializable {
-
-     @ManyToOne
-    @JoinColumn(name = "id_veterinario", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "id_veterinario")
+    @JsonBackReference
     @NonNull
     private Veterinarios veterinario;
 
     @ManyToOne
-    @JoinColumn(name = "id_especialidad", nullable = false)
+    @JoinColumn(name = "id_especialidad")
     @NonNull
     private Especialidades especialidad;
-
-    
 }

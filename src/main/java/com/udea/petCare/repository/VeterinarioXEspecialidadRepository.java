@@ -3,7 +3,9 @@ package com.udea.petCare.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.udea.petCare.entity.VeterinarioXEspecialidad;
+
 @Repository
-public interface VeterinarioXEspecialidadRepository extends JpaRepository<VeterinarioXEspecialidad, Long>{
+public interface VeterinarioXEspecialidadRepository extends JpaRepository<VeterinarioXEspecialidad, Long> {
 
 }
