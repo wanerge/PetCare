@@ -1,23 +1,24 @@
 package com.udea.petCare.entity;
 
 import lombok.*;
-
+import java.io.Serializable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 @Entity
-@Table(name="tblEspecies")
+@Table(name = "tblEspecies")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
-public class Especies {
+public class Especies implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name= "id_especie")
-    private long id;
+    @Column(name = "id_especie")
+    private long id_especie;
 
-    @Column(name="nombre_especies")
+    @Column(name = "nombre_especie", length = 20)
     @NonNull
-    private String nombreEspecies;
-
+    @NotBlank
+    private String nombre_especie;
 }
