@@ -7,8 +7,8 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Mascotas {
-    
+public class MascotasDTO {
+
     private Long id_mascota;
     private String nombre;
     private Long id_especie;
