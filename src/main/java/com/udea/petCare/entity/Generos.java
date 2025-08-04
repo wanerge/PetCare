@@ -15,10 +15,10 @@ public class Generos implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_genero")
-    private long id_genero;
+    private long idGenero;
 
     @Column(name = "nombre_genero", length = 20)
     @NonNull
     @NotBlank
-    private String nombre_genero;
+    private String nombreGenero;
 }

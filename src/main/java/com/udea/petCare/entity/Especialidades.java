@@ -17,14 +17,14 @@ public class Especialidades implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_especialidad")
-    private long id_especialidad;
+    private long idEspecialidad;
 
     @Column(name = "nombre_especialidad", length = 30)
     @NonNull
     @NotBlank
-    private String nombre_especialidad;
+    private String nombreEspecialidad;
 
-    @OneToMany(mappedBy = "especialidad")
-    private List<VeterinarioXEspecialidad> veterinariosAsignados;
+    @ManyToMany(mappedBy = "especialidades", fetch = FetchType.LAZY)
+    private List<Veterinarios> veterinarios;
 
 }

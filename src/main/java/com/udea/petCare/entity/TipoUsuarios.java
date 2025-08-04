@@ -15,10 +15,10 @@ public class TipoUsuarios implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tipo_usuario")
-    private long id_tipo_usuario;
+    private long idTipoUsuario;
 
     @Column(name = "tipo_usuario", length = 20)
     @NonNull
     @NotBlank
-    private String tipo_usuario;
+    private String tipoUsuario;
 }

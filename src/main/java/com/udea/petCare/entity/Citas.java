@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Data
@@ -18,15 +17,15 @@ public class Citas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cita")
-    private long id_cita;
+    private long idCita;
 
     @Column(name = "fecha_cita")
     @NonNull
-    private LocalDate fecha_cita;
+    private LocalDate fechaCita;
 
     @Column(name = "hora_cita")
     @NonNull
-    private LocalTime hora_cita;
+    private LocalTime horaCita;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
@@ -48,7 +47,11 @@ public class Citas implements Serializable {
     @NonNull
     private Estados estado;
 
-    @OneToMany(mappedBy = "cita", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<CitaXServicio> serviciosAsignados;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "tblCitasXServicios",
+        joinColumns = @JoinColumn(name = "id_cita"),
+        inverseJoinColumns = @JoinColumn(name = "id_servicio")
+    )
+    private List<Servicios> serviciosAsignados;
 }

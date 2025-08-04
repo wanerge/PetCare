@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServicioSimpleDTO {
+public class ServiciosDTO {
     private Long id;
     private String nombre;
     private String descripcion;

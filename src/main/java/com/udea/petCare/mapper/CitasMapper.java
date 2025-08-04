@@ -8,19 +8,16 @@ public class CitasMapper {
 
         public static CitasDTO toDTO(Citas cita) {
                 return new CitasDTO(
-                                cita.getId_cita(),
-                                cita.getFecha_cita(),
-                                cita.getHora_cita(),
+                                cita.getIdCita(),
+                                cita.getFechaCita(),
+                                cita.getHoraCita(),
                                 cita.getCliente().getNombre(),
                                 cita.getMascota().getNombre(),
                                 cita.getVeterinario().getNombre(),
-                                cita.getEstado().getNombre_estado(),
+                                cita.getEstado().getNombreEstado(),
                                 cita.getServiciosAsignados().stream()
-                                                .map(cs -> new ServicioSimpleDTO(
-                                                                cs.getServicio().getId_servicio(),
-                                                                cs.getServicio().getNombre_servicio(),
-                                                                cs.getServicio().getDescripcion(),
-                                                                cs.getServicio().getPrecio()))
+                                                .map(ServiciosMapper::toDTO)
                                                 .collect(Collectors.toList()));
         }
+
 }

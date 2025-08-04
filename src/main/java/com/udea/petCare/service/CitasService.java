@@ -6,14 +6,15 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.udea.petCare.dto.CitasDTO;
 import com.udea.petCare.dto.CitasRequestDTO;
-import com.udea.petCare.entity.CitaXServicio;
 import com.udea.petCare.entity.Citas;
 import com.udea.petCare.entity.Clientes;
 import com.udea.petCare.entity.Estados;
 import com.udea.petCare.entity.Mascotas;
 import com.udea.petCare.entity.Servicios;
 import com.udea.petCare.entity.Veterinarios;
+import com.udea.petCare.mapper.CitasMapper;
 import com.udea.petCare.repository.CitasRepository;
 import com.udea.petCare.repository.ClientesRepository;
 import com.udea.petCare.repository.EstadosRepository;
@@ -42,11 +43,11 @@ public class CitasService {
         @Autowired
         private ServiciosRepository serviciosRepo;
 
-        public List<Citas> findAll() {
-                return citasRepository.findAll().stream().collect(Collectors.toList());
+        public List<CitasDTO> findAll() {
+                return citasRepository.findAll().stream().map(CitasMapper::toDTO).collect(Collectors.toList());
         }
 
-        public Citas save(CitasRequestDTO citasRequestDTO) {
+        public CitasDTO save(CitasRequestDTO citasRequestDTO) {
                 Clientes cliente = clientesRepository.findById(citasRequestDTO.getIdCliente())
                                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 
@@ -60,28 +61,25 @@ public class CitasService {
                                 .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
 
                 Citas citas = new Citas();
-                citas.setFecha_cita(citasRequestDTO.getFecha());
-                citas.setHora_cita(citasRequestDTO.getHora());
+                citas.setFechaCita(citasRequestDTO.getFecha());
+                citas.setHoraCita(citasRequestDTO.getHora());
                 citas.setCliente(cliente);
                 citas.setMascota(mascota);
                 citas.setVeterinario(veterinario);
                 citas.setEstado(estado);
 
-                List<CitaXServicio> serviciosAsignados = citasRequestDTO.getIdServicios().stream()
-                                .map(id -> {
-                                        Servicios servicio = serviciosRepo.findById(id)
-                                                        .orElseThrow(() -> new RuntimeException(
-                                                                        "Servicio ID " + id + " no encontrado"));
-                                        return new CitaXServicio(citas, servicio);
-                                })
+                List<Servicios> serviciosAsignados = citasRequestDTO.getIdServicios().stream()
+                                .map(idServicio -> serviciosRepo.findById(idServicio)
+                                                .orElseThrow(() -> new RuntimeException(
+                                                                "Servicio ID " + idServicio + " no encontrado")))
                                 .collect(Collectors.toList());
 
                 citas.setServiciosAsignados(serviciosAsignados);
-
-                return citasRepository.save(citas);
+                citasRepository.save(citas);
+                return CitasMapper.toDTO(citas);
         }
 
-        public Citas update(Long id, CitasRequestDTO citasRequestDTO) {
+        public CitasDTO update(Long id, CitasRequestDTO citasRequestDTO) {
                 Citas existingCita = citasRepository.findById(id)
                                 .orElseThrow(() -> new RuntimeException("Cita no encontrada con ID: " + id));
 
@@ -94,40 +92,41 @@ public class CitasService {
                 Estados estado = estadosRepository.findById(citasRequestDTO.getIdEstado())
                                 .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
 
-                existingCita.setFecha_cita(citasRequestDTO.getFecha());
-                existingCita.setHora_cita(citasRequestDTO.getHora());
+                existingCita.setFechaCita(citasRequestDTO.getFecha());
+                existingCita.setHoraCita(citasRequestDTO.getHora());
                 existingCita.setMascota(mascota);
                 existingCita.setVeterinario(veterinario);
                 existingCita.setEstado(estado);
 
-                List<CitaXServicio> serviciosAsignados = citasRequestDTO.getIdServicios().stream()
-                                .map(idServicio -> {
-                                        Servicios servicio = serviciosRepo.findById(idServicio)
-                                                        .orElseThrow(() -> new RuntimeException(
-                                                                        "Servicio ID " + idServicio
-                                                                                        + " no encontrado"));
-                                        return new CitaXServicio(existingCita, servicio);
-                                })
+                List<Servicios> serviciosAsignados = citasRequestDTO.getIdServicios().stream()
+                                .map(idServicio -> serviciosRepo.findById(idServicio)
+                                                .orElseThrow(() -> new RuntimeException(
+                                                                "Servicio ID " + idServicio + " no encontrado")))
                                 .collect(Collectors.toList());
 
                 existingCita.setServiciosAsignados(serviciosAsignados);
+                citasRepository.save(existingCita);
 
-                return citasRepository.save(existingCita);
+                return CitasMapper.toDTO(existingCita);
         }
 
-        public void delete(Long id) {
+        public String delete(Long id) {
                 if (!citasRepository.existsById(id)) {
                         throw new RuntimeException("Cita no encontrada");
                 }
                 citasRepository.deleteById(id);
+                return "Cita eliminada exitosamente";
         }
 
-        public Citas findById(Long id) {
+        public CitasDTO findById(Long id) {
                 return citasRepository.findById(id)
+                                .map(CitasMapper::toDTO)
                                 .orElseThrow(() -> new RuntimeException("Cita no encontrada con ID: " + id));
         }
 
-        public List<Citas> findByClienteId(Long clienteId) {
-                return citasRepository.findByClienteId(clienteId).stream().collect(Collectors.toList());
+        public List<CitasDTO> findByClienteId(Long clienteId) {
+                return citasRepository.findByClienteIdCliente(clienteId).stream()
+                                .map(CitasMapper::toDTO)
+                                .collect(Collectors.toList());
         }
 }
