@@ -3,42 +3,54 @@ package com.udea.petCare.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.udea.petCare.dto.CitasRequestDTO;
+import com.udea.petCare.entity.Citas;
+import com.udea.petCare.service.CitasService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.udea.petCare.entity.Citas;
-import com.udea.petCare.entity.TipoUsuarios;
-import com.udea.petCare.service.CitasService;
-
-@RestController
+@RestController()
+@RequestMapping("/api/citas")
+@CrossOrigin(origins = "*")
 public class CitasController {
 
-     @Autowired
+    @Autowired
     private CitasService citasService;
 
-    @GetMapping("/listar")
-    public List<Citas> listarCitas() {
-        return citasService.listarCitas();
+    @GetMapping("/citas")
+    public List<Citas> findAll() {
+        return citasService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Citas findById(@PathVariable Long id) {
+        return citasService.findById(id);
+    }
+
+    @GetMapping("/cliente/{clienteId}")
+    public List<Citas> findByClienteId(@PathVariable Long clienteId) {
+        return citasService.findByClienteId(clienteId);
     }
 
     @PostMapping
-    public CitaDTO createCita(@RequestBody CitasDTO citaDTO) {
-        return citasService.save(citaDTO);
+    public Citas save(@RequestBody CitasRequestDTO citasRequestDTO) {
+        return citasService.save(citasRequestDTO);
     }
 
     @PutMapping("/{id}")
-    public CitaDTO updateCita(@PathVariable Long id, @RequestBody CitasDTO citaDTO) {
-        return citasService.update(id, citaDTO);
+    public Citas update(@PathVariable Long id, @RequestBody CitasRequestDTO citasRequestDTO) {
+        return citasService.update(id, citasRequestDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteCita(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         citasService.delete(id);
     }
 }

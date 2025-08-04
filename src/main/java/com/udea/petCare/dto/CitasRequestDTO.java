@@ -16,5 +16,5 @@ public class CitasRequestDTO {
     private Long idMascota;
     private Long idVeterinario;
     private Long idEstado;
-    private List<Long> idServicios; // IDs de servicios a asociar
+    private List<Long> idServicios;
 }

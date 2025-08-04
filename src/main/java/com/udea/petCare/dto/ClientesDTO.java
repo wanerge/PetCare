@@ -9,22 +9,10 @@ import lombok.*;
 @NoArgsConstructor
 public class ClientesDTO {
 
-
     private long id;
-
-  
     private String correo;
-
-
     private String claveHash;
-
-
     private String tokenSesion;
-
-  
     private Timestamp fechaInicio;
-
-   
     private long idTipoUsuario;
-
 }
