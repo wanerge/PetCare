@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.security.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +17,7 @@ public class Mascotas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_mascota")
-    private long id_mascota;
+    private long idMascota;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
@@ -36,7 +36,7 @@ public class Mascotas implements Serializable {
 
     @Column(name = "fecha_nacimiento")
     @NonNull
-    private Timestamp fecha_nacimiento;
+    private LocalDateTime fechaNacimiento;
 
     @ManyToOne
     @JoinColumn(name = "id_genero")

@@ -3,9 +3,6 @@ package com.udea.petCare.entity;
 import lombok.*;
 import java.io.Serializable;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -19,7 +16,7 @@ public class Veterinarios implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_veterinario")
-    private long id_veterinario;
+    private long idVeterinario;
 
     @Column(name = "nombre", length = 50)
     @NonNull
@@ -41,7 +38,11 @@ public class Veterinarios implements Serializable {
     @NonNull
     private Usuarios usuario;
 
-    @OneToMany(mappedBy = "veterinario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<VeterinarioXEspecialidad> especialidadesAsignadas;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "tblEspecialidadesXVeterinarios",
+        joinColumns = @JoinColumn(name = "id_veterinario"),
+        inverseJoinColumns = @JoinColumn(name = "id_especialidad")
+    )
+    private List<Especialidades> especialidades;
 }

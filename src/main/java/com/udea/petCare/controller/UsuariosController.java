@@ -10,7 +10,7 @@ import com.udea.petCare.dto.LoginRequestDTO;
 import com.udea.petCare.service.UsuariosService;
 
 @RestController
-@RequestMapping("/api/Usuarios")
+@RequestMapping("/api/usuarios")
 @CrossOrigin("*")
 public class UsuariosController {
 

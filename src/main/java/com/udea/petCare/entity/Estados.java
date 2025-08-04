@@ -15,10 +15,10 @@ public class Estados implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_estado")
-    private long id_estado;
+    private long idEstado;
 
     @Column(name = "nombre_estado", length = 15)
     @NonNull
     @NotBlank
-    private String nombre_estado;
+    private String nombreEstado;
 }

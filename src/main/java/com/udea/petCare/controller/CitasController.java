@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.udea.petCare.dto.CitasDTO;
 import com.udea.petCare.dto.CitasRequestDTO;
-import com.udea.petCare.entity.Citas;
 import com.udea.petCare.service.CitasService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,33 +24,33 @@ public class CitasController {
     @Autowired
     private CitasService citasService;
 
-    @GetMapping("/citas")
-    public List<Citas> findAll() {
+    @GetMapping
+    public List<CitasDTO> findAll() {
         return citasService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Citas findById(@PathVariable Long id) {
+    public CitasDTO findById(@PathVariable Long id) {
         return citasService.findById(id);
     }
 
     @GetMapping("/cliente/{clienteId}")
-    public List<Citas> findByClienteId(@PathVariable Long clienteId) {
+    public List<CitasDTO> findByClienteId(@PathVariable Long clienteId) {
         return citasService.findByClienteId(clienteId);
     }
 
     @PostMapping
-    public Citas save(@RequestBody CitasRequestDTO citasRequestDTO) {
+    public CitasDTO save(@RequestBody CitasRequestDTO citasRequestDTO) {
         return citasService.save(citasRequestDTO);
     }
 
     @PutMapping("/{id}")
-    public Citas update(@PathVariable Long id, @RequestBody CitasRequestDTO citasRequestDTO) {
+    public CitasDTO update(@PathVariable Long id, @RequestBody CitasRequestDTO citasRequestDTO) {
         return citasService.update(id, citasRequestDTO);
     }
 
-    @GetMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        citasService.delete(id);
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id) {
+        return citasService.delete(id);
     }
 }

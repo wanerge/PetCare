@@ -16,5 +16,5 @@ public class CitasDTO {
     private String mascotaNombre;
     private String veterinarioNombre;
     private String estado;
-    private List<ServicioSimpleDTO> servicios;
+    private List<ServiciosDTO> servicios;
 }

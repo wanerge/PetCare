@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,12 +17,12 @@ public class Servicios implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_servicio")
-    private long id_servicio;
+    private long idServicio;
 
     @Column(name = "nombre_servicio", length = 50)
     @NonNull
     @NotBlank
-    private String nombre_servicio;
+    private String nombreServicio;
 
     @Column(name = "descripcion")
     @NonNull
@@ -32,4 +33,7 @@ public class Servicios implements Serializable {
     @NonNull
     @NotBlank
     private BigDecimal precio;
+
+    @ManyToMany(mappedBy = "serviciosAsignados", fetch = FetchType.LAZY)
+    private List<Citas> citas;
 }
