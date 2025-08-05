@@ -12,9 +12,9 @@ import java.util.List;
 public class CitasRequestDTO {
     private LocalDate fecha;
     private LocalTime hora;
-    private Long idCliente;
-    private Long idMascota;
-    private Long idVeterinario;
-    private Long idEstado;
+    private long idCliente;
+    private long idMascota;
+    private long idVeterinario;
+    private long idEstado;
     private List<Long> idServicios;
 }
