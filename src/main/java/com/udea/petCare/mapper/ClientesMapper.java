@@ -6,6 +6,9 @@ import com.udea.petCare.entity.Clientes;
 public class ClientesMapper {
 
     public static ClientesDTO toDTO(Clientes cliente) {
+        if (cliente == null) {
+            return null;
+        }
         ClientesDTO dto = new ClientesDTO();
         dto.setId(cliente.getIdCliente());
         dto.setNombre(cliente.getNombre());

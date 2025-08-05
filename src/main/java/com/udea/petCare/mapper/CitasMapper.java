@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 public class CitasMapper {
 
         public static CitasDTO toDTO(Citas cita) {
+                if (cita == null) {
+                        return null;
+                }
                 return new CitasDTO(
                                 cita.getIdCita(),
                                 cita.getFechaCita(),

@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 public class VeterinariosMapper {
 
     public static VeterinariosDTO toDTO(Veterinarios veterinario) {
+        if (veterinario == null) {
+            return null;
+        }
         VeterinariosDTO dto = new VeterinariosDTO();
         dto.setId(veterinario.getIdVeterinario());
         dto.setNombre(veterinario.getNombre());

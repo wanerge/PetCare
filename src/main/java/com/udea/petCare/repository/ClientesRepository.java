@@ -6,5 +6,4 @@ import com.udea.petCare.entity.Clientes;
 
 @Repository
 public interface ClientesRepository extends JpaRepository<Clientes, Long> {
-   
 }
