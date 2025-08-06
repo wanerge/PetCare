@@ -6,19 +6,19 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 @Data
+@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tblTipoUsuarios")
+@Table(name = "tblGeneros")
 @Entity
-public class TipoUsuarios implements Serializable {
-
+public class Generos implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_tipo_usuario")
-    private long idTipoUsuario;
+    @Column(name = "id_genero")
+    private long idGenero;
 
-    @Column(name = "tipo_usuario", length = 20)
+    @Column(name = "nombre_genero", length = 20)
     @NonNull
     @NotBlank
-    private String tipoUsuario;
+    private String nombreGenero;
 }
