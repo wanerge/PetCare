@@ -1,0 +1,61 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="card-header">
+      <div class="icon-wrapper">
+        
+        <svg class="icon-heart" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <h2 class="card-title">Portal del Cliente</h2>
+      <p class="card-description">Inicia sesión para programar citas</p>
+    </div>
+    <div class="card-content">
+      <form class="login-form">
+        <div class="form-group">
+          <label for="login-email" class="form-label">
+            <!-- Icono de Correo (SVG inline) -->
+            <svg class="icon-mail" viewBox="0 0 20 20" fill="currentColor" >
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+            </svg>
+            Correo Electrónico
+          </label>
+          <input
+            id="login-email"
+            type="email"
+            placeholder="tu@email.com"
+            name="email"
+            class="form-input"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="login-password" class="form-label">
+            <!-- Icono de Candado (SVG inline) -->
+            <svg class="icon-lock" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v2H3a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2v-8a2 2 0 00-2-2h-3V6a4 4 0 00-4-4zm-4 4a2 2 0 012-2h4a2 2 0 012 2v2H6V6zm0 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            Contraseña
+          </label>
+          <input
+            id="login-password"
+            type="password"
+            placeholder="••••••••"
+            name="password"
+            class="form-input"
+            required
+          />
+        </div>
+        <button type="submit" class="submit-button">
+          Iniciar Sesión
+        </button>
+      </form>
+
+      <div class="back-link-wrapper">
+        <a href="#" class="back-link">
+          ← Volver al inicio
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

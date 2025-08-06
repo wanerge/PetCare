@@ -1,0 +1,177 @@
+:root {
+  --purple-100: #ede9fe;
+  --purple-50: #fdf2f8;
+  --blue-50: #eff6ff;
+  --purple-800: #5b21b6;
+  --purple-600: #7c3aed;
+  --purple-700: #6b21a8;
+  --purple-500: #8b5cf6;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --white: #ffffff;
+}
+
+.login-container {
+  min-height: 100vh; /* min-h-screen */
+  background: linear-gradient(to bottom right, var(--purple-100), var(--blue-50), var(--purple-50)); /* bg-gradient-to-br from-purple-100 via-blue-50 to-purple-50 */
+  display: flex; /* flex */
+  align-items: center; /* items-center */
+  justify-content: center; /* justify-center */
+  padding: 1rem; /* p-4 */
+  font-family: 'Inter', sans-serif; /* Usar Inter como fuente */
+}
+
+.login-card {
+  width: 100%; /* w-full */
+  max-width: 28rem; /* max-w-md (448px) */
+  background-color: rgba(255, 255, 255, 0.8); /* bg-white/80 */
+  backdrop-filter: blur(5px); /* backdrop-blur-sm */
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+  overflow: hidden; /* Para asegurar que el blur no se escape de los bordes redondeados */
+}
+
+.card-header {
+  text-align: center; /* text-center */
+  padding: 1.5rem; /* p-6 */
+}
+
+.icon-wrapper {
+  display: flex; /* flex */
+  justify-content: center; /* justify-center */
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.icon-heart {
+  width: 4rem; /* w-16 */
+  height: 4rem; /* h-16 */
+  background: linear-gradient(to right, var(--purple-500), var(--blue-500)); /* bg-gradient-to-r from-purple-500 to-blue-500 */
+  border-radius: 9999px; /* rounded-full */
+  display: flex; /* flex */
+  align-items: center; /* items-center */
+  justify-content: center; /* justify-center */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+  color: var(--white); /* text-white */
+}
+
+.icon-heart svg { /* Estilo para el SVG dentro del contenedor del corazón */
+  width: 2rem; /* w-8 */
+  height: 2rem; /* h-8 */
+}
+
+.card-title {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 800; /* font-extrabold */
+  color: var(--purple-800); /* text-purple-800 */
+  margin-top: 0.5rem; /* mt-2 */
+}
+
+.card-description {
+  color: var(--purple-600); /* text-purple-600 */
+  font-size: 1.125rem; /* text-lg */
+  margin-top: 0.25rem; /* mt-1 */
+}
+
+.card-content {
+  padding: 1.5rem; /* p-6 */
+}
+
+.login-form {
+  display: flex; /* flex */
+  flex-direction: column; /* flex-col */
+  gap: 1.5rem; /* space-y-6 */
+}
+
+.form-group {
+  display: flex; /* flex */
+  flex-direction: column; /* flex-col */
+  gap: 0.5rem; /* space-y-2 */
+}
+
+.form-label {
+  color: var(--purple-700); /* text-purple-700 */
+  display: flex; /* flex */
+  align-items: center; /* items-center */
+  font-size: 1rem; /* text-base */
+  font-weight: 500; /* font-medium */
+}
+
+.icon-mail, .icon-lock {
+  width: 1.25rem; /* w-5 */
+  height: 1.25rem; /* h-5 */
+  margin-right: 0.5rem; /* mr-2 */
+  color: var(--blue-500); /* text-blue-500 */
+  display: inline-block; /* inline */
+  vertical-align: middle; /* para alinear con el texto */
+}
+
+.form-input {
+  border: 2px solid var(--purple-200); /* border-2 border-purple-200 */
+  border-radius: 0.375rem; /* rounded-md */
+  padding: 0.5rem 0.75rem; /* p-2 */
+  width: 100%; /* w-full */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* transition-all duration-200 ease-in-out */
+  outline: none; /* Eliminar el outline por defecto */
+}
+
+.form-input:focus {
+  border-color: var(--purple-500); /* focus:border-purple-500 */
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2); /* focus:ring-2 focus:ring-purple-200 (ajustado para CSS) */
+}
+
+.submit-button {
+  width: 100%; /* w-full */
+  padding: 0.75rem 1rem; /* py-3 */
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600; /* font-semibold */
+  border-radius: 0.375rem; /* rounded-md */
+  background: linear-gradient(to right, var(--purple-600), var(--blue-600)); /* bg-gradient-to-r from-purple-600 to-blue-600 */
+  color: var(--white); /* text-white */
+  border: none; /* Eliminar borde del botón */
+  cursor: pointer; /* Cambiar cursor al pasar por encima */
+  transition: all 0.3s ease-in-out; /* transition-all duration-300 ease-in-out */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+}
+
+.submit-button:hover {
+  background: linear-gradient(to right, var(--purple-700), var(--blue-700)); /* hover:from-purple-700 hover:to-blue-700 */
+  transform: scale(1.02); /* transform hover:scale-105 (ajustado para un efecto más sutil) */
+}
+
+.back-link-wrapper {
+  margin-top: 2rem; /* mt-8 */
+  text-align: center; /* text-center */
+}
+
+.back-link {
+  color: var(--purple-600); /* text-purple-600 */
+  font-size: 1rem; /* text-base */
+  font-weight: 500; /* font-medium */
+  text-decoration: none; /* Eliminar subrayado por defecto */
+  transition: color 0.2s ease-in-out; /* transition-colors duration-200 */
+}
+
+.back-link:hover {
+  color: var(--purple-800); /* hover:text-purple-800 */
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 640px) {
+  .login-card {
+    margin: 1rem; /* Añadir un poco de margen en pantallas pequeñas */
+  }
+
+  .card-title {
+    font-size: 2rem; /* Ajustar tamaño de fuente para pantallas pequeñas */
+  }
+
+  .card-description {
+    font-size: 1rem;
+  }
+
+  .submit-button {
+    font-size: 1rem;
+    padding: 0.625rem 1rem;
+  }
+}
