@@ -1,0 +1,96 @@
+<div class="client-dashboard">
+  <!-- Encabezado -->
+
+  <div class="dashboard-body">
+    <div class="form-services-container">
+      <!-- Formulario para agendar cita -->
+      <form (submit)="handleScheduleAppointment($event)" class="appointment-form">
+        <h2>Programar Nueva Cita</h2>
+        <p>Selecciona el servicio y horario disponible</p>
+
+        <!-- Selección de servicio -->
+        <label>Servicio</label>
+        <select (change)="handleServiceSelect($event)">
+          <option value="" disabled selected>Selecciona un servicio</option>
+          <option *ngFor="let service of services" [value]="service.name">
+            {{ service.name }} - {{ service.price | currency:'COP' }}
+          </option>
+        </select>
+
+        <!-- Detalles del servicio -->
+        <div *ngIf="selectedService" class="service-details">
+          <h3>{{ selectedService.name }}</h3>
+          <p>{{ selectedService.description }}</p>
+          <div class="price-info">
+            <span>{{ selectedService.price | currency:'COP' }}</span>
+            <span class="badge">
+              Anticipo: {{ selectedService.price * 0.3 | currency:'COP' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Fecha y hora -->
+        <div class="input-row">
+          <div>
+            <label>Fecha</label>
+            <select [(ngModel)]="appointmentData.date" name="date">
+              <option value="" disabled selected>Fecha</option>
+              <option value="2024-01-15">15 de Enero</option>
+              <option value="2024-01-16">16 de Enero</option>
+              <option value="2024-01-17">17 de Enero</option>
+            </select>
+          </div>
+          <div>
+            <label>Hora</label>
+            <select [(ngModel)]="appointmentData.time" name="time">
+              <option value="" disabled selected>Hora</option>
+              <option value="10:00 AM">10:00 AM</option>
+              <option value="2:00 PM">2:00 PM</option>
+              <option value="9:00 AM">9:00 AM</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Nombre de la mascota y tipo -->
+        <div class="input-row">
+          <div>
+            <label>Nombre de la Mascota</label>
+            <input type="text" [(ngModel)]="appointmentData.petName" name="petName" required />
+          </div>
+          <div>
+            <label>Tipo de Mascota</label>
+            <select [(ngModel)]="appointmentData.petType" name="petType">
+              <option value="perro">Perro</option>
+              <option value="gato">Gato</option>
+              <option value="ave">Ave</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Nombre propietario -->
+        <label>Nombre del Propietario</label>
+        <input type="text" [(ngModel)]="appointmentData.ownerName" name="ownerName" required />
+
+        <!-- Email -->
+        <label>Email</label>
+        <input type="email" [(ngModel)]="appointmentData.email" name="email" required />
+
+        <!-- Teléfono -->
+        <label>Teléfono</label>
+        <input type="text" [(ngModel)]="appointmentData.phone" name="phone" required />
+
+        <!-- Mensaje de anticipo -->
+        <div class="payment-warning">
+          Se requiere pago del 30% como anticipo para confirmar la cita
+        </div>
+
+        <!-- Botones -->
+        <div class="button-group">
+          <button type="submit">Programar Cita</button>
+          <button type="button" (click)="sendReminder()">Enviar Recordatorio</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
