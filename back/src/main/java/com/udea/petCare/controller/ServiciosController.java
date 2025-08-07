@@ -6,11 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.udea.petCare.entity.Servicios;
+import com.udea.petCare.dto.ServiciosDTO;
 import com.udea.petCare.service.ServiciosService;
 import org.springframework.web.bind.annotation.GetMapping;
-
 
 @RestController
 @RequestMapping("/api/servicios")
@@ -21,8 +19,8 @@ public class ServiciosController {
     private ServiciosService serviciosService;
 
     @GetMapping
-    public List<Servicios> getMethodName() {
+    public List<ServiciosDTO> getMethodName() {
         return serviciosService.findAll();
     }
-    
+
 }

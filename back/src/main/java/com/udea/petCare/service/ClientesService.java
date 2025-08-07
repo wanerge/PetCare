@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.udea.petCare.dto.ClientesDTO;
@@ -27,10 +28,13 @@ public class ClientesService {
     @Autowired
     private TipoUsuariosRepository tipoUsuariosRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     public List<ClientesDTO> findAll() {
         return clientesRepository.findAll().stream()
-            .map(ClientesMapper::toDTO)
-            .collect(Collectors.toList());
+                .map(ClientesMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     public ClientesDTO save(ClientesRequestDTO dto) {
@@ -43,10 +47,11 @@ public class ClientesService {
         cliente.setTelefono(dto.getTelefono());
         cliente.setDireccion(dto.getDireccion());
         cliente.setUsuario(usuariosRepository.save(
-            new Usuarios(dto.getCorreo(), dto.getClave(),
-            tipoUsuariosRepository.findByTipoUsuario("Cliente")
-            .orElseThrow(() -> new RuntimeException("Tipo de usuario no encontrado")))));
-        
+                new Usuarios(dto.getCorreo(),
+                        passwordEncoder.encode(dto.getClave()),
+                        tipoUsuariosRepository.findByTipoUsuario("Cliente")
+                                .orElseThrow(() -> new RuntimeException("Tipo de usuario no encontrado")))));
+
         clientesRepository.save(cliente);
         return ClientesMapper.toDTO(cliente);
     }

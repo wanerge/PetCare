@@ -21,12 +21,12 @@ public class ClientesController {
     @Autowired
     private ClientesService clientesService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<ClientesDTO> findAll() {
         return clientesService.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ClientesDTO save(@RequestBody ClientesRequestDTO dto) {
         return clientesService.save(dto);
     }

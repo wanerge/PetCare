@@ -17,8 +17,11 @@ public class UsuariosController {
     @Autowired
     private UsuariosService usuariosService;
 
-    @PostMapping("/iniciarSesion")
-    public void iniciarSesion(@RequestBody LoginRequestDTO loginRequestDTO) {
-        usuariosService.login(loginRequestDTO);
+    @PostMapping("/auth/login")
+    public String login(@RequestBody LoginRequestDTO loginRequestDTO) {
+        if (loginRequestDTO == null || loginRequestDTO.getCorreo() == null || loginRequestDTO.getClave() == null) {
+            throw new IllegalArgumentException("Invalid login request");
+        }
+        return usuariosService.login(loginRequestDTO);
     }
 }

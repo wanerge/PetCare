@@ -48,10 +48,6 @@ public class Citas implements Serializable {
     private Estados estado;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "tblCitasXServicios",
-        joinColumns = @JoinColumn(name = "id_cita"),
-        inverseJoinColumns = @JoinColumn(name = "id_servicio")
-    )
+    @JoinTable(name = "tblCitaXServicio", joinColumns = @JoinColumn(name = "id_cita"), inverseJoinColumns = @JoinColumn(name = "id_servicio"))
     private List<Servicios> serviciosAsignados;
 }
