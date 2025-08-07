@@ -15,7 +15,9 @@ services:
       - "5433:5432"
 
   app:
-    build: .
+    build:
+      context: ./back
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "8080:8080"
