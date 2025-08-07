@@ -12,22 +12,26 @@
         <label>Servicio</label>
         <select (change)="handleServiceSelect($event)">
           <option value="" disabled selected>Selecciona un servicio</option>
-          <option *ngFor="let service of services" [value]="service.name">
-            {{ service.name }} - {{ service.price | currency:'COP' }}
-          </option>
+          @for (service of services; track service.name) {
+            <option [value]="service.name">
+              {{ service.name }} - {{ service.price | currency:'COP' }}
+            </option>
+          }
         </select>
 
         <!-- Detalles del servicio -->
-        <div *ngIf="selectedService" class="service-details">
-          <h3>{{ selectedService.name }}</h3>
-          <p>{{ selectedService.description }}</p>
-          <div class="price-info">
-            <span>{{ selectedService.price | currency:'COP' }}</span>
-            <span class="badge">
-              Anticipo: {{ selectedService.price * 0.3 | currency:'COP' }}
-            </span>
+        @if (selectedService) {
+          <div class="service-details">
+            <h3>{{ selectedService.name }}</h3>
+            <p>{{ selectedService.description }}</p>
+            <div class="price-info">
+              <span>{{ selectedService.price | currency:'COP' }}</span>
+              <span class="badge">
+                Anticipo: {{ selectedService.price * 0.3 | currency:'COP' }}
+              </span>
+            </div>
           </div>
-        </div>
+        }
 
         <!-- Fecha y hora -->
         <div class="input-row">
