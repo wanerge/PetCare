@@ -5,20 +5,20 @@ import java.io.Serializable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "tblTipoUsuarios")
 @Entity
-public class TipoUsuarios implements Serializable {
+@Table(name = "tblEspecies")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Especies implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_tipo_usuario")
-    private long idTipoUsuario;
+    @Column(name = "id_especie")
+    private long idEspecie;
 
-    @Column(name = "tipo_usuario", length = 20)
+    @Column(name = "nombre_especie", length = 20)
     @NonNull
     @NotBlank
-    private String tipoUsuario;
+    private String nombreEspecie;
 }
