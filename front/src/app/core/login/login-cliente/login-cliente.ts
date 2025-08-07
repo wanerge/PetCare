@@ -44,10 +44,12 @@ export class LoginCliente {
 
     this.loginServices.login(loginData).subscribe({
       next: (response) => {
-        console.log('Login exitoso:', response);
-        this.isLoading = false;
-        
-        this.router.navigate(['/client/dashboard']);
+      console.log('Login exitoso:', response);
+    
+      localStorage.setItem('token', response); 
+      this.isLoading = false;
+      this.router.navigate(['client-dashboard']);
+
       },
       error: (error) => {
         console.error('Error en login:', error);

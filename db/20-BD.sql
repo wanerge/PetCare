@@ -53,3 +53,5 @@ VALUES
   ('Spa y peluquería canina','Servicio de baño corte de pelo y cepillado para mantener la higiene y buen aspecto', 50000),
   ('Spa y peluquería felina','Servicio de baño corte de pelo y cepillado para mantener la higiene y buen aspecto', 40000),
   ('Atención a domicilio','Consulta o atención médica realizada en la casa del cliente(ideal si la mascota no se puede movilizar)', 55000);
+
+  
