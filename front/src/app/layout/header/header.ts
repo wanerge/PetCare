@@ -1,30 +1,21 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { LoginButtonComponent } from '../../login-button/login-button';
+
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.html',
-  styleUrls: ['./header.css']
+  styleUrls: ['./header.css'],
+  imports: [LoginButtonComponent]
 })
+
 export class Header {
-  esInicio = false;
+  constructor(private router: Router) {}
 
-  constructor(private router: Router) {
-    // Detectar la ruta actual
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.esInicio = event.urlAfterRedirects === '/';
-      });
-  }
-
-  irAlLogin() {
-    this.router.navigate(['/login']);
-  }
-
-  iniciarSesion() {
-    console.log('Iniciar sesión');
+  get isLoginRoute(): boolean {
+    const url = this.router.url;
+    return url === '/login' || url === '/admin/login';
   }
 
 }
