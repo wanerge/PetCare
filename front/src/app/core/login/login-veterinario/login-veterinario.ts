@@ -47,7 +47,7 @@ export class LoginVeterinario {
         console.log('Login veterinario exitoso:', response);
         localStorage.setItem('token', response); 
         this.isLoading = false;
-        this.router.navigate(['client-dashboard']);
+        this.router.navigate(['']);
       },
       error: (error) => {
         console.error('Error en login veterinario:', error);
