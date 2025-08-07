@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { App } from '../../../app';
 import { LoginServices } from '../../../domains/jobs/services/login-services';
 
 @Component({
   selector: 'app-login-veterinario',
-  standalone: true, 
-  imports: [FormsModule, App],
+  imports: [FormsModule],
   templateUrl: './login-veterinario.html',
   styleUrls: ['./login-veterinario.css']
 })
@@ -24,23 +22,19 @@ export class LoginVeterinario {
 
   handleLogin(event: Event): void {
     event.preventDefault();
-    
-    // Limpiar mensaje de error previo
+ 
     this.errorMessage = '';
 
-    // Validación básica
     if (!this.email || !this.password) {
       this.errorMessage = 'Completa los campos de inicio de sesión.';
       return;
     }
 
-    // Validación de formato de email
     if (!this.isValidEmail(this.email)) {
       this.errorMessage = 'Ingresa un correo electrónico válido.';
       return;
     }
 
-    // Preparar datos para el backend
     const loginData = {
       correo: this.email,
       clave: this.password
@@ -48,7 +42,6 @@ export class LoginVeterinario {
 
     this.isLoading = true;
 
-    // Llamar al servicio
     this.loginServices.login(loginData).subscribe({
       next: (response) => {
         console.log('Login veterinario exitoso:', response);

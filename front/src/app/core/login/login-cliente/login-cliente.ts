@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { App } from '../../../app';
 import { LoginServices } from '../../../domains/jobs/services/login-services';
-
 
 @Component({
   selector: 'app-login-cliente',
-  standalone: true, 
-  imports: [FormsModule, App],
+  imports: [FormsModule],
   templateUrl: './login-cliente.html',
   styleUrl: './login-cliente.css'
 })
