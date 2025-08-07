@@ -1,0 +1,59 @@
+<section class="container">
+  <div class="card">
+    <div class="card-header">
+      <div class="heart"></div>
+      <h2>Portal del Cliente</h2>
+      <p>Inicia sesión para programar citas</p>
+    </div>
+
+    <!-- Mensaje de error -->
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <form class="form" (ngSubmit)="handleLogin()" #loginForm="ngForm">
+      <label>
+        Correo Electrónico
+        <input 
+          type="email" 
+          [(ngModel)]="loginEmail" 
+          name="loginEmail" 
+          required 
+          [disabled]="isLoading"
+        />
+      </label>
+
+      <label>
+        Contraseña
+        <input 
+          type="password" 
+          [(ngModel)]="loginPassword" 
+          name="loginPassword" 
+          required 
+          [disabled]="isLoading"
+        />
+      </label>
+
+      <button 
+        type="submit" 
+        [disabled]="isLoading || loginForm.invalid"
+        [class.loading]="isLoading"
+      >
+        @if (isLoading) {
+          <span>Iniciando sesión...</span>
+        } @else {
+          <span>Iniciar Sesión</span>
+        }
+      </button>
+    </form>
+
+    <div class="text-center">
+      <p>¿No tienes cuenta? 
+        <a routerLink="/client/register">Regístrate aquí</a>
+      </p>
+      <a routerLink="/app">← Volver al inicio</a>
+    </div>
+  </div>
+</section>
