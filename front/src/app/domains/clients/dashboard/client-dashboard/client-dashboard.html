@@ -3,6 +3,25 @@
 
   <div class="dashboard-body">
     <div class="form-services-container">
+      <!-- Mensajes de estado -->
+      @if (loading) {
+        <div class="loading-message">
+          Cargando...
+        </div>
+      }
+      
+      @if (error) {
+        <div class="error-message">
+          {{ error }}
+        </div>
+      }
+      
+      @if (success) {
+        <div class="success-message">
+          {{ success }}
+        </div>
+      }
+
       <!-- Formulario para agendar cita -->
       <form (submit)="handleScheduleAppointment($event)" class="appointment-form">
         <h2>Programar Nueva Cita</h2>
@@ -10,9 +29,15 @@
 
         <!-- Selección de servicio -->
         <label>Servicio</label>
-        <select (change)="handleServiceSelect($event)">
-          <option value="" disabled selected>Selecciona un servicio</option>
-          @for (service of services; track service.name) {
+        <select (change)="handleServiceSelect($event)" [disabled]="loading">
+          <option value="" disabled selected>
+            @if (loading) {
+              Cargando servicios...
+            } @else {
+              Selecciona un servicio
+            }
+          </option>
+          @for (service of services; track service.id) {
             <option [value]="service.name">
               {{ service.name }} - {{ service.price | currency:'COP' }}
             </option>
@@ -37,20 +62,40 @@
         <div class="input-row">
           <div>
             <label>Fecha</label>
-            <select [(ngModel)]="appointmentData.date" name="date">
-              <option value="" disabled selected>Fecha</option>
-              <option value="2024-01-15">15 de Enero</option>
-              <option value="2024-01-16">16 de Enero</option>
-              <option value="2024-01-17">17 de Enero</option>
+            <select [(ngModel)]="appointmentData.date" name="date" [disabled]="!selectedService">
+              <option value="" disabled selected>
+                @if (!selectedService) {
+                  Selecciona primero un servicio
+                } @else if (availableDates.length === 0) {
+                  Sin fechas disponibles
+                } @else {
+                  Selecciona una fecha
+                }
+              </option>
+              @for (dateSlot of availableDates; track dateSlot.date) {
+                <option [value]="dateSlot.date">
+                  {{ formatDate(dateSlot.date) }}
+                </option>
+              }
             </select>
           </div>
           <div>
             <label>Hora</label>
-            <select [(ngModel)]="appointmentData.time" name="time">
-              <option value="" disabled selected>Hora</option>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="2:00 PM">2:00 PM</option>
-              <option value="9:00 AM">9:00 AM</option>
+            <select [(ngModel)]="appointmentData.time" name="time" [disabled]="!appointmentData.date">
+              <option value="" disabled selected>
+                @if (!appointmentData.date) {
+                  Selecciona primero una fecha
+                } @else if (availableTimes.length === 0) {
+                  Sin horarios disponibles
+                } @else {
+                  Selecciona una hora
+                }
+              </option>
+              @for (timeSlot of availableTimes; track timeSlot.time) {
+                <option [value]="timeSlot.time">
+                  {{ timeSlot.time }}
+                </option>
+              }
             </select>
           </div>
         </div>
@@ -59,11 +104,17 @@
         <div class="input-row">
           <div>
             <label>Nombre de la Mascota</label>
-            <input type="text" [(ngModel)]="appointmentData.petName" name="petName" required />
+            <input 
+              type="text" 
+              [(ngModel)]="appointmentData.petName" 
+              name="petName" 
+              required 
+              [disabled]="loading"
+            />
           </div>
           <div>
             <label>Tipo de Mascota</label>
-            <select [(ngModel)]="appointmentData.petType" name="petType">
+            <select [(ngModel)]="appointmentData.petType" name="petType" [disabled]="loading">
               <option value="perro">Perro</option>
               <option value="gato">Gato</option>
               <option value="ave">Ave</option>
@@ -74,25 +125,53 @@
 
         <!-- Nombre propietario -->
         <label>Nombre del Propietario</label>
-        <input type="text" [(ngModel)]="appointmentData.ownerName" name="ownerName" required />
+        <input 
+          type="text" 
+          [(ngModel)]="appointmentData.ownerName" 
+          name="ownerName" 
+          required 
+          [disabled]="loading"
+        />
 
         <!-- Email -->
         <label>Email</label>
-        <input type="email" [(ngModel)]="appointmentData.email" name="email" required />
+        <input 
+          type="email" 
+          [(ngModel)]="appointmentData.email" 
+          name="email" 
+          required 
+          [disabled]="loading"
+        />
 
         <!-- Teléfono -->
         <label>Teléfono</label>
-        <input type="text" [(ngModel)]="appointmentData.phone" name="phone" required />
+        <input 
+          type="text" 
+          [(ngModel)]="appointmentData.phone" 
+          name="phone" 
+          required 
+          [disabled]="loading"
+        />
 
         <!-- Mensaje de anticipo -->
-        <div class="payment-warning">
-          Se requiere pago del 30% como anticipo para confirmar la cita
-        </div>
+        @if (selectedService) {
+          <div class="payment-warning">
+            Se requiere pago del 30% ({{ selectedService.price * 0.3 | currency:'COP' }}) como anticipo para confirmar la cita
+          </div>
+        }
 
         <!-- Botones -->
         <div class="button-group">
-          <button type="submit">Programar Cita</button>
-          <button type="button" (click)="sendReminder()">Enviar Recordatorio</button>
+          <button type="submit" [disabled]="loading">
+            @if (loading) {
+              Procesando...
+            } @else {
+              Programar Cita
+            }
+          </button>
+          <button type="button" (click)="sendReminder()" [disabled]="loading">
+            Enviar Recordatorio
+          </button>
         </div>
       </form>
     </div>
