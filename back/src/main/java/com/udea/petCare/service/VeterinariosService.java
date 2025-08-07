@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.udea.petCare.dto.VeterinariosDTO;
 import com.udea.petCare.dto.VeterinariosRequestDTO;
@@ -31,14 +32,17 @@ public class VeterinariosService {
     @Autowired
     private EspecialidadesRepository especialidadesRepo;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     public List<VeterinariosDTO> findAll() {
         return veterinariosRepository.findAll().stream()
-            .map(VeterinariosMapper::toDTO)
-            .collect(Collectors.toList());
+                .map(VeterinariosMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public VeterinariosDTO save (VeterinariosRequestDTO dto) {
-        if (usuariosRepository.findByCorreo(dto.getCorreo()).isPresent()){
+    public VeterinariosDTO save(VeterinariosRequestDTO dto) {
+        if (usuariosRepository.findByCorreo(dto.getCorreo()).isPresent()) {
             throw new RuntimeException("El correo ya está registrado");
         }
         Veterinarios veterinario = new Veterinarios();
@@ -46,14 +50,15 @@ public class VeterinariosService {
         veterinario.setApellido(dto.getApellido());
         veterinario.setTelefono(dto.getTelefono());
         veterinario.setUsuario(usuariosRepository.save(
-            new Usuarios(dto.getCorreo(), dto.getClave(),
-            tipoUsuariosRepository.findByTipoUsuario("Veterinario")
-            .orElseThrow(() -> new RuntimeException("Tipo de usuario no encontrado")))));
-        
+                new Usuarios(dto.getCorreo(),
+                        passwordEncoder.encode(dto.getClave()),
+                        tipoUsuariosRepository.findByTipoUsuario("Veterinario")
+                                .orElseThrow(() -> new RuntimeException("Tipo de usuario no encontrado")))));
+
         List<Especialidades> especialidadesAsignadas = dto.getEspecialidadesIds().stream()
-            .map(id -> especialidadesRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Especialidad no encontrada con ID: " + id)))
-            .collect(Collectors.toList());
+                .map(id -> especialidadesRepo.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Especialidad no encontrada con ID: " + id)))
+                .collect(Collectors.toList());
 
         veterinario.setEspecialidades(especialidadesAsignadas);
         veterinariosRepository.save(veterinario);

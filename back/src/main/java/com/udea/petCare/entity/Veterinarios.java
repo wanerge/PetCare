@@ -39,10 +39,6 @@ public class Veterinarios implements Serializable {
     private Usuarios usuario;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "tblEspecialidadesXVeterinarios",
-        joinColumns = @JoinColumn(name = "id_veterinario"),
-        inverseJoinColumns = @JoinColumn(name = "id_especialidad")
-    )
+    @JoinTable(name = "tblVeterinarioXEspecialidad", joinColumns = @JoinColumn(name = "id_veterinario"), inverseJoinColumns = @JoinColumn(name = "id_especialidad"))
     private List<Especialidades> especialidades;
 }

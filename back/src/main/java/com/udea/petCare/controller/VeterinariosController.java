@@ -21,12 +21,12 @@ public class VeterinariosController {
     @Autowired
     private VeterinariosService veterinariosService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<VeterinariosDTO> findAll() {
         return veterinariosService.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public VeterinariosDTO save(@RequestBody VeterinariosRequestDTO dto) {
         return veterinariosService.save(dto);
     }

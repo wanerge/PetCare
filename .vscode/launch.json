@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-PetCareApplication<petCare>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.udea.petCare.PetCareApplication",
+      "projectName": "petCare",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
