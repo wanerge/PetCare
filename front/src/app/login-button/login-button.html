@@ -1,0 +1,14 @@
+<div class="login-dropdown-container">
+  <button class="login-button" (click)="toggleOpciones()">
+    Iniciar Sesión
+    <svg class="dropdown-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+  @if (mostrarOpciones) {
+    <div class="dropdown-menu">
+      <a routerLink="/login-cliente" class="dropdown-item">Cliente</a>
+      <a routerLink="/login-veterinario" class="dropdown-item">Administrador</a>
+    </div>
+    }
+</div>
