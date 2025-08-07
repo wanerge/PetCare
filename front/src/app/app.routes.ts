@@ -1,8 +1,13 @@
 import { RouterModule, Routes } from '@angular/router';
-import { Login } from './core/login/login';
+import { LoginCliente } from './core/login/login-cliente/login-cliente';
+import { LoginVeterinario } from './core/login/login-veterinario/login-veterinario';
+
 
 
 export const routes: Routes = [
-    { path: 'login', component: Login }, 
+  { path: 'login-cliente', component: LoginCliente },     
+  { path: 'login-veterinario', component: LoginVeterinario }
+ 
+
 ];
 
