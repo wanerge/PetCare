@@ -11,38 +11,12 @@ import { LoginButtonComponent } from '../../login-button/login-button';
   imports: [LoginButtonComponent]
 })
 export class Header {
-  currentRoute: string = '';
 
-  constructor(private router: Router) {}
+   constructor(public router: Router) {}
 
-  ngOnInit(): void {
-    this.router.events
-      .pipe(
-        // Filtramos para quedarnos solo con NavigationEnd
-        filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
-      )
-      .subscribe(event => {
-        this.currentRoute = event.urlAfterRedirects;
-      });
-  }
-
-  isLoginRoute(): boolean {
-    return this.currentRoute.includes('login-cliente') ||
-           this.currentRoute.includes('login-veterinario') ||
-           this.currentRoute.includes('client-dashboard') ||
-           this.currentRoute.includes('vet-dashboard')
-
-          
-  }
-
-  isDashboardRoute(): boolean {
-    return this.currentRoute.includes('client-dashboard') ||
-           this.currentRoute.includes('vet-dashboard');
-  }
-
-  logout(): void {
+  logout() {
+    // Aquí limpias sesión, token, etc.
     console.log('Sesión cerrada');
-    this.router.navigate(['']);
+    this.router.navigate(['/']);
   }
-
 }

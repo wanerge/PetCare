@@ -7,11 +7,10 @@
   </div>
   <h1 class="app-title">PetCare Online</h1>
 </div>
-@if (!isLoginRoute()) {
-    <app-login-button></app-login-button>
-  }
 
-  @if (isDashboardRoute()) {
-    <button class="logout-button" (click)="logout()">Salir</button>
+@if(router.url === '/' ) {
+    <app-login-button></app-login-button>
+  } @else {
+    <button class="logout-button" (click)="logout()">Volver al inicio</button>
   }
 </header>
