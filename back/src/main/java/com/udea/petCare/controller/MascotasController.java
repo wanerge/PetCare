@@ -42,4 +42,9 @@ public class MascotasController {
         return mascotasService.findByIdCliente(clienteId);
     }
 
+    @GetMapping("/clientes")
+    public List<MascotasDTO> findMascotas() {
+        return mascotasService.findMascotas();
+    }
+
 }

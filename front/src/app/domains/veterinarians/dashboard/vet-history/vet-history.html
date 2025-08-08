@@ -1,0 +1,20 @@
+<main class="container">
+  <h2>Appointment History</h2>
+  @if (history().length > 0) {
+  <section class="history-list">
+    @for (appointment of history(); track appointment.id) {
+    <div class="card">
+      <h3>Appointment #{{ appointment.id }}</h3>
+      <p><strong>Client:</strong> {{ appointment.clientName }}</p>
+      <p><strong>Pet:</strong> {{ appointment.petName }}</p>
+      <p><strong>Date:</strong> {{ appointment.date | date : "medium" }}</p>
+      <p><strong>Service:</strong> {{ appointment.service }}</p>
+    </div>
+    }
+  </section>
+  } @else {
+  <div class="no-data">
+    <p>No completed appointments.</p>
+  </div>
+  }
+</main>

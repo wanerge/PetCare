@@ -31,7 +31,6 @@ public class Servicios implements Serializable {
 
     @Column(name = "precio", precision = 20, scale = 2)
     @NonNull
-    @NotBlank
     private BigDecimal precio;
 
     @ManyToMany(mappedBy = "serviciosAsignados", fetch = FetchType.LAZY)

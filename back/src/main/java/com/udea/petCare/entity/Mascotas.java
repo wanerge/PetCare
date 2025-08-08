@@ -45,6 +45,5 @@ public class Mascotas implements Serializable {
 
     @Column(name = "peso", precision = 20, scale = 2)
     @NonNull
-    @NotBlank
     private BigDecimal peso;
 }
