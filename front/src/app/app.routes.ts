@@ -1,11 +1,11 @@
 import { RouterModule, Routes } from '@angular/router';
 import { LoginCliente } from './core/login/login-cliente/login-cliente';
 import { LoginVeterinario } from './core/login/login-veterinario/login-veterinario';
-import { Home } from './layout/home/home';
 import { ClientMain } from './domains/clients/dashboard/client-main/client-main';
 import { VeterinarianMain } from './domains/veterinarians/dashboard/veterinarian-main/veterinarian-main';
 import { VetAppointments } from './domains/veterinarians/dashboard/vet-appointments/vet-appointments';
 import { VetHistory } from './domains/veterinarians/dashboard/vet-history/vet-history';
+import { Home } from './layout/home/pages/home';
 
 
 

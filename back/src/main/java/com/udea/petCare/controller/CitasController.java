@@ -44,6 +44,16 @@ public class CitasController {
         return citasService.findByVeterinarioId(veterinarioId);
     }
 
+    @GetMapping("/veterinario/pendientes")
+    public List<CitasDTO> findByVeterinarioIdAndEstado() {
+        return citasService.findByVeterinarioIdVeterinarioAndEstadoNot();
+    }
+
+    @GetMapping("/veterinario/completadas")
+    public List<CitasDTO> findByVeterinarioIdAndEstadoNot() {
+        return citasService.findByVeterinarioIdVeterinarioAndEstado();
+    }
+
     @PostMapping
     public CitasDTO save(@RequestBody CitasRequestDTO citasRequestDTO) {
         return citasService.save(citasRequestDTO);
