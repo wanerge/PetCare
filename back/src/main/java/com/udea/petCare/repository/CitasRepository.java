@@ -11,10 +11,14 @@ import com.udea.petCare.entity.Citas;
 public interface CitasRepository extends JpaRepository<Citas, Long> {
     List<Citas> findByClienteIdCliente(Long clienteId);
 
+    List<Citas> findByClienteIdClienteAndEstadoIdEstado(Long clienteId, Long estadoId);
+
+    List<Citas> findByClienteIdClienteAndEstadoIdEstadoNot(Long clienteId, Long estadoId);
+
     List<Citas> findByVeterinarioIdVeterinario(Long veterinarioId);
 
-    List<Citas> findByClienteIdClienteAndEstado(Long clienteId, String estado);
+    List<Citas> findByVeterinarioIdVeterinarioAndEstadoIdEstado(Long veterinarioId, Long estadoId);
 
-    List<Citas> findByVeterinarioIdVeterinarioAndEstado(Long veterinarioId, String estado);
+    List<Citas> findByVeterinarioIdVeterinarioAndEstadoIdEstadoNot(Long veterinarioId, Long estadoId);
 
 }

@@ -55,14 +55,36 @@ public class CitasService {
                                 .collect(Collectors.toList());
         }
 
-        public List<CitasDTO> findByVeterinarioIdAndEstado() {
+        public List<CitasDTO> findByVeterinarioIdVeterinarioAndEstadoNot() {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 Long idUsuario = Long.parseLong(authentication.getName());
                 Long veterinarioId = veterinariosRepository.findByUsuarioIdUsuario(idUsuario)
                                 .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"))
                                 .getIdVeterinario();
 
-                return citasRepository.findByVeterinarioIdVeterinarioAndEstado(veterinarioId, "estado").stream()
+                Long estadoId = estadosRepository.findByNombreEstado("Finalizada")
+                                .orElseThrow(() -> new RuntimeException("Estado no encontrado"))
+                                .getIdEstado();
+
+                return citasRepository.findByVeterinarioIdVeterinarioAndEstadoIdEstadoNot(veterinarioId, estadoId)
+                                .stream()
+                                .map(CitasMapper::toDTO)
+                                .collect(Collectors.toList());
+        }
+
+        public List<CitasDTO> findByVeterinarioIdVeterinarioAndEstado() {
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                Long idUsuario = Long.parseLong(authentication.getName());
+                Long veterinarioId = veterinariosRepository.findByUsuarioIdUsuario(idUsuario)
+                                .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"))
+                                .getIdVeterinario();
+
+                Long estadoId = estadosRepository.findByNombreEstado("Finalizada")
+                                .orElseThrow(() -> new RuntimeException("Estado no encontrado"))
+                                .getIdEstado();
+
+                return citasRepository.findByVeterinarioIdVeterinarioAndEstadoIdEstado(veterinarioId, estadoId)
+                                .stream()
                                 .map(CitasMapper::toDTO)
                                 .collect(Collectors.toList());
         }

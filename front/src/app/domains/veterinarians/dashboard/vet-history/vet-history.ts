@@ -2,37 +2,54 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@ang
 import { VetApi } from '../../services/vet-api';
 import { DatePipe } from '@angular/common';
 
+interface ServiciosDTO {
+  id: number;
+  nombre: string;
+  descripcion: string;
+  precio: number;
+}
+
 interface Appointment {
   id: number;
-  clientName: string;
-  petName: string;
-  date: Date;
-  service: string;
+  fecha: string;
+  hora: string;
+  clienteNombre: string;
+  mascotaNombre: string;
+  veterinarioNombre: string;
+  estado: string;
+  servicios: ServiciosDTO[];
 }
 
 @Component({
   selector: 'app-vet-history',
-  standalone: true,
-  imports: [DatePipe],
   templateUrl: './vet-history.html',
   styleUrl: './vet-history.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'class': 'vet-history-host',
-  }
+  },
+  imports: [DatePipe]
 })
 export class VetHistory implements OnInit {
-  private VetApi = inject(VetApi);
-  protected history = signal<Appointment[]>([]);
+  private readonly vetApi = inject(VetApi);
+
+  protected readonly history = signal<Appointment[]>([]);
+  protected readonly loading = signal(true);
+  protected readonly error = signal<string | null>(null);
 
   ngOnInit(): void {
-    this.VetApi.getCompletedAppointments().subscribe(
-      (data: Appointment[]) => {
+    this.loading.set(true);
+    this.error.set(null);
+
+    this.vetApi.getCompletedAppointments().subscribe({
+      next: (data: Appointment[]) => {
         this.history.set(data);
+        this.loading.set(false);
       },
-      (error) => {
-        console.error('Error fetching history:', error);
+      error: (err) => {
+        this.error.set('Error fetching history');
+        this.loading.set(false);
       }
-    );
+    });
   }
 }

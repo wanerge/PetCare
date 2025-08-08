@@ -1,20 +1,65 @@
 <main class="container">
-  <h2>Upcoming Appointments</h2>
-  @if (appointments().length > 0) {
+  <h2>Próximas citas</h2>
+  @if (pendingAppointments().length > 0) {
   <section class="appointment-list">
-    @for (appointment of appointments(); track appointment.id) {
+    @for (appointment of pendingAppointments(); track appointment.id) {
     <div class="card">
-      <h3>Appointment #{{ appointment.id }}</h3>
-      <p><strong>Client:</strong> {{ appointment.clientName }}</p>
-      <p><strong>Pet:</strong> {{ appointment.petName }}</p>
-      <p><strong>Date:</strong> {{ appointment.date | date : "medium" }}</p>
-      <p><strong>Service:</strong> {{ appointment.service }}</p>
+      <h3>Cita #{{ appointment.id }}</h3>
+      <p><strong>Cliente:</strong> {{ appointment.clienteNombre }}</p>
+      <p><strong>Mascota:</strong> {{ appointment.mascotaNombre }}</p>
+      <p><strong>Veterinario:</strong> {{ appointment.veterinarioNombre }}</p>
+      <p>
+        <strong>Fecha:</strong> {{ appointment.fecha }} {{ appointment.hora }}
+      </p>
+      <p><strong>Estado:</strong> {{ appointment.estado }}</p>
+      <strong>Servicios:</strong>
+      <ul>
+        @for (servicio of appointment.servicios; track servicio.id) {
+        <li>
+          {{ servicio.nombre }} - {{ servicio.descripcion }} (${{
+            servicio.precio
+          }})
+        </li>
+        }
+      </ul>
     </div>
     }
   </section>
   } @else {
   <div class="no-data">
-    <p>No upcoming appointments.</p>
+    <p>No hay próximas citas.</p>
+  </div>
+  }
+
+  <h2>Citas completadas</h2>
+  @if (completedAppointments().length > 0) {
+  <section class="appointment-list">
+    @for (appointment of completedAppointments(); track appointment.id) {
+    <div class="card completed">
+      <h3>Cita #{{ appointment.id }}</h3>
+      <p><strong>Cliente:</strong> {{ appointment.clienteNombre }}</p>
+      <p><strong>Mascota:</strong> {{ appointment.mascotaNombre }}</p>
+      <p><strong>Veterinario:</strong> {{ appointment.veterinarioNombre }}</p>
+      <p>
+        <strong>Fecha:</strong> {{ appointment.fecha }} {{ appointment.hora }}
+      </p>
+      <p><strong>Estado:</strong> {{ appointment.estado }}</p>
+      <strong>Servicios:</strong>
+      <ul>
+        @for (servicio of appointment.servicios; track servicio.id) {
+        <li>
+          {{ servicio.nombre }} - {{ servicio.descripcion }} (${{
+            servicio.precio
+          }})
+        </li>
+        }
+      </ul>
+    </div>
+    }
+  </section>
+  } @else {
+  <div class="no-data">
+    <p>No hay citas completadas.</p>
   </div>
   }
 </main>
