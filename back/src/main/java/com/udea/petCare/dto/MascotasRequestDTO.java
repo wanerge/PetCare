@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MascotasRequestDTO {
 
-    private Long idMascota;
     private long idCliente;
     private String nombre;
     private long idEspecie;

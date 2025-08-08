@@ -38,7 +38,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/usuarios/**",
                                 "/api/veterinarios/save",
                                 "/api/clientes/save",
-                                "/api/servicios/**")
+                                "/api/servicios/**",
+                                "/api/veterinarios/all")
                         .permitAll()
                         .requestMatchers("/api/clientes/**", "/api/mascotas/**").hasRole("Cliente")
                         .requestMatchers("/api/veterinarios/**").hasRole("Veterinario")
