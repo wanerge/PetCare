@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.udea.petCare.dto.VeterinariosDTO;
 import com.udea.petCare.dto.VeterinariosRequestDTO;
 import com.udea.petCare.entity.Especialidades;
+import com.udea.petCare.entity.TipoUsuarios;
 import com.udea.petCare.entity.Usuarios;
 import com.udea.petCare.entity.Veterinarios;
 import com.udea.petCare.mapper.VeterinariosMapper;
@@ -51,16 +52,9 @@ public class VeterinariosService {
                 if (usuariosRepository.findByCorreo(dto.getCorreo()).isPresent()) {
                         throw new RuntimeException("El correo ya está registrado");
                 }
-                Veterinarios veterinario = new Veterinarios();
-                veterinario.setNombre(dto.getNombre());
-                veterinario.setApellido(dto.getApellido());
-                veterinario.setTelefono(dto.getTelefono());
-                veterinario.setUsuario(usuariosRepository.save(
-                                new Usuarios(dto.getCorreo(),
-                                                passwordEncoder.encode(dto.getClave()),
-                                                tipoUsuariosRepository.findByTipoUsuario("Veterinario")
-                                                                .orElseThrow(() -> new RuntimeException(
-                                                                                "Tipo de usuario no encontrado")))));
+
+                TipoUsuarios tipoUsuario = tipoUsuariosRepository.findByTipoUsuario("Veterinario")
+                                .orElseThrow(() -> new RuntimeException("Tipo de usuario no encontrado"));
 
                 List<Especialidades> especialidadesAsignadas = dto.getEspecialidadesIds().stream()
                                 .map(id -> especialidadesRepo.findById(id)
@@ -68,6 +62,12 @@ public class VeterinariosService {
                                                                 "Especialidad no encontrada con ID: " + id)))
                                 .collect(Collectors.toList());
 
+                Veterinarios veterinario = new Veterinarios();
+                veterinario.setNombre(dto.getNombre());
+                veterinario.setApellido(dto.getApellido());
+                veterinario.setTelefono(dto.getTelefono());
+                veterinario.setUsuario(usuariosRepository.save(
+                                new Usuarios(dto.getCorreo(), passwordEncoder.encode(dto.getClave()), tipoUsuario)));
                 veterinario.setEspecialidades(especialidadesAsignadas);
                 veterinariosRepository.save(veterinario);
                 return VeterinariosMapper.toDTO(veterinario);

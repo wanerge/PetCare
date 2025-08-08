@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.udea.petCare.dto.CitasDTO;
@@ -47,6 +49,24 @@ public class CitasService {
                 return citasRepository.findAll().stream().map(CitasMapper::toDTO).collect(Collectors.toList());
         }
 
+        public List<CitasDTO> findByVeterinarioId(Long veterinarioId) {
+                return citasRepository.findByVeterinarioIdVeterinario(veterinarioId).stream()
+                                .map(CitasMapper::toDTO)
+                                .collect(Collectors.toList());
+        }
+
+        public List<CitasDTO> findByVeterinarioIdAndEstado() {
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                Long idUsuario = Long.parseLong(authentication.getName());
+                Long veterinarioId = veterinariosRepository.findByUsuarioIdUsuario(idUsuario)
+                                .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"))
+                                .getIdVeterinario();
+
+                return citasRepository.findByVeterinarioIdVeterinarioAndEstado(veterinarioId, "estado").stream()
+                                .map(CitasMapper::toDTO)
+                                .collect(Collectors.toList());
+        }
+
         public CitasDTO save(CitasRequestDTO citasRequestDTO) {
                 Clientes cliente = clientesRepository.findById(citasRequestDTO.getIdCliente())
                                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
@@ -60,6 +80,12 @@ public class CitasService {
                 Estados estado = estadosRepository.findById(citasRequestDTO.getIdEstado())
                                 .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
 
+                List<Servicios> serviciosAsignados = citasRequestDTO.getIdServicios().stream()
+                                .map(idServicio -> serviciosRepo.findById(idServicio)
+                                                .orElseThrow(() -> new RuntimeException(
+                                                                "Servicio ID " + idServicio + " no encontrado")))
+                                .collect(Collectors.toList());
+
                 Citas citas = new Citas();
                 citas.setFechaCita(citasRequestDTO.getFecha());
                 citas.setHoraCita(citasRequestDTO.getHora());
@@ -67,13 +93,6 @@ public class CitasService {
                 citas.setMascota(mascota);
                 citas.setVeterinario(veterinario);
                 citas.setEstado(estado);
-
-                List<Servicios> serviciosAsignados = citasRequestDTO.getIdServicios().stream()
-                                .map(idServicio -> serviciosRepo.findById(idServicio)
-                                                .orElseThrow(() -> new RuntimeException(
-                                                                "Servicio ID " + idServicio + " no encontrado")))
-                                .collect(Collectors.toList());
-
                 citas.setServiciosAsignados(serviciosAsignados);
                 citasRepository.save(citas);
                 return CitasMapper.toDTO(citas);
@@ -92,18 +111,17 @@ public class CitasService {
                 Estados estado = estadosRepository.findById(citasRequestDTO.getIdEstado())
                                 .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
 
-                existingCita.setFechaCita(citasRequestDTO.getFecha());
-                existingCita.setHoraCita(citasRequestDTO.getHora());
-                existingCita.setMascota(mascota);
-                existingCita.setVeterinario(veterinario);
-                existingCita.setEstado(estado);
-
                 List<Servicios> serviciosAsignados = citasRequestDTO.getIdServicios().stream()
                                 .map(idServicio -> serviciosRepo.findById(idServicio)
                                                 .orElseThrow(() -> new RuntimeException(
                                                                 "Servicio ID " + idServicio + " no encontrado")))
                                 .collect(Collectors.toList());
 
+                existingCita.setFechaCita(citasRequestDTO.getFecha());
+                existingCita.setHoraCita(citasRequestDTO.getHora());
+                existingCita.setMascota(mascota);
+                existingCita.setVeterinario(veterinario);
+                existingCita.setEstado(estado);
                 existingCita.setServiciosAsignados(serviciosAsignados);
                 citasRepository.save(existingCita);
 

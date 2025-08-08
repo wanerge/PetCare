@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HomeApi } from '../services/Home-api';
+import { Servicios } from '../models/servicios';
 
 
 interface Carrusel {
@@ -17,7 +19,23 @@ interface Carrusel {
 })
 export class CarruselComponent {
 
-  servicios: Carrusel[] = [
+  private servicioService = inject(HomeApi);
+
+  servicio : Servicios[] = [];
+
+  ngOnInit(): void {
+    this.loadServicios();
+  }
+
+  private loadServicios(): void {
+    this.servicioService.getAllServicios().subscribe(servicios => {
+      this.servicio = servicios;
+      console.log(this.servicio);
+    });
+  }
+
+  /*
+    servicios: Carrusel[] = [
     {
       titulo: 'Hospitalización',
       descripcion: 'Cuidado y monitoreo intensivo 24/7 para mascotas enfermas',
@@ -66,8 +84,9 @@ export class CarruselComponent {
       precio: '$70.000',
       icono: ''
     }
-  ];
+  ]; 
 
+  */
   indiceActual = 0;
 
   irAnterior() {
@@ -77,7 +96,7 @@ export class CarruselComponent {
   }
 
   irSiguiente() {
-    if (this.indiceActual < this.servicios.length - 1) {
+    if (this.indiceActual < this.servicio.length - 1) {
       this.indiceActual++;
     }
   }
