@@ -12,7 +12,8 @@ export const routes: Routes = [
   { path: 'login-cliente', component: LoginCliente },     
   { path: 'login-veterinario', component: LoginVeterinario },
   { path: 'client-dashboard', component: ClientDashboard },
-  {path: 'vet-dashboard', component: Main }
+  {path: 'vet-dashboard', component: Main },
+  {path: '*', redirectTo: '' } // Redirige cualquier ruta desconocida a Home
 ];
 
 
