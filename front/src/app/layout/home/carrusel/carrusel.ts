@@ -1,15 +1,16 @@
+import { Servicios } from './../models/servicios';
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeApi } from '../services/Home-api';
-import { Servicios } from '../models/servicios';
 
-
+/*
 interface Carrusel {
   titulo: string;
   descripcion: string;
   precio: string;
   icono: string;
-}
+} 
+*/
 
 @Component({
   selector: 'app-carrusel',
@@ -21,7 +22,7 @@ export class CarruselComponent {
 
   private servicioService = inject(HomeApi);
 
-  servicio : Servicios[] = [];
+  servicio = signal<Servicios[]> ([]);
 
   ngOnInit(): void {
     this.loadServicios();
@@ -29,10 +30,12 @@ export class CarruselComponent {
 
   private loadServicios(): void {
     this.servicioService.getAllServicios().subscribe(servicios => {
-      this.servicio = servicios;
-      console.log(this.servicio);
+      this.servicio.set(servicios);
+      console.log(this.servicio());
+      console.log(this.servicioService);
     });
   }
+
 
   /*
     servicios: Carrusel[] = [

@@ -1,13 +1,13 @@
 export interface Servicios {
-    idServicio: number;
-    nombreServicio: string;
+    id: number;
+    nombre: string;
     descripcion: string;
-    precio: string;
+    precio: number;
 }
 
 export interface ServiciosDTO {
-    idServicio: number;
-    nombreServicio: string;
+    id: number;
+    nombre: string;
     descripcion: string;
-    precio: string;
+    precio: number;
 }
