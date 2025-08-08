@@ -1,26 +1,21 @@
 <div class="servicios-container">
   <h2 class="titulo">Nuestros Servicios</h2>
 
-  <div class="card">
-    <div class="icono">
-      <span class="material-icons">
-        {{ servicios[indiceActual].icono }}
-      </span>
-    </div>
-    <h3 class="titulo-servicio">{{ servicios[indiceActual].titulo }}</h3>
-    <p class="descripcion">{{ servicios[indiceActual].descripcion }}</p>
-    <p class="precio">{{ servicios[indiceActual].precio }}</p>
+  <div class="card" *ngIf="servicio.length > 0">
+    <h3 class="titulo-servicio">{{ servicio[indiceActual].nombreServicio }}</h3>
+    <p class="descripcion">{{ servicio[indiceActual].descripcion }}</p>
+    <p class="precio">{{ servicio[indiceActual].precio }}</p>
   </div>
 
   <div class="navegacion">
     <button class="boton anterior" (click)="irAnterior()" [disabled]="indiceActual === 0">← Anterior</button>
-    <button class="boton siguiente" (click)="irSiguiente()" [disabled]="indiceActual === servicios.length - 1">Siguiente →</button>
+    <button class="boton siguiente" (click)="irSiguiente()" [disabled]="indiceActual === servicio.length - 1">Siguiente →</button>
   </div>
 
   <div class="paginacion">
     <span
       class="punto"
-      *ngFor="let servicio of servicios; let i = index"
+      *ngFor="let item of servicio; let i = index"
       [class.activo]="i === indiceActual"></span>
   </div>
 </div>

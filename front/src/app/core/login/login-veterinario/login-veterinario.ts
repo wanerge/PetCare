@@ -18,11 +18,11 @@ export class LoginVeterinario {
   constructor(
     private router: Router,
     private loginServices: LoginServices
-  ) {}
+  ) { }
 
   handleLogin(event: Event): void {
     event.preventDefault();
- 
+
     this.errorMessage = '';
 
     if (!this.email || !this.password) {
@@ -45,14 +45,14 @@ export class LoginVeterinario {
     this.loginServices.login(loginData).subscribe({
       next: (response) => {
         console.log('Login veterinario exitoso:', response);
-        localStorage.setItem('token', response); 
+        localStorage.setItem('token', response);
         this.isLoading = false;
-        this.router.navigate(['vet-dashboard']);
+        this.router.navigate(['veterinarian-main']);
       },
       error: (error) => {
         console.error('Error en login veterinario:', error);
         this.isLoading = false;
-        
+
         if (error.status === 401) {
           this.errorMessage = 'Credenciales incorrectas.';
         } else if (error.status === 400) {

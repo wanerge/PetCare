@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.udea.petCare.dto.ClientesDTO;
 import com.udea.petCare.dto.ClientesRequestDTO;
 import com.udea.petCare.entity.Clientes;
+import com.udea.petCare.entity.TipoUsuarios;
 import com.udea.petCare.entity.Usuarios;
 import com.udea.petCare.mapper.ClientesMapper;
 import com.udea.petCare.repository.ClientesRepository;
@@ -41,16 +42,17 @@ public class ClientesService {
         if (usuariosRepository.findByCorreo(dto.getCorreo()).isPresent()) {
             throw new RuntimeException("El correo ya está registrado");
         }
+
+        TipoUsuarios tipoUsuario = tipoUsuariosRepository.findByTipoUsuario("Cliente")
+                .orElseThrow(() -> new RuntimeException("Tipo de usuario no encontrado"));
+
         Clientes cliente = new Clientes();
         cliente.setNombre(dto.getNombre());
         cliente.setApellido(dto.getApellido());
         cliente.setTelefono(dto.getTelefono());
         cliente.setDireccion(dto.getDireccion());
         cliente.setUsuario(usuariosRepository.save(
-                new Usuarios(dto.getCorreo(),
-                        passwordEncoder.encode(dto.getClave()),
-                        tipoUsuariosRepository.findByTipoUsuario("Cliente")
-                                .orElseThrow(() -> new RuntimeException("Tipo de usuario no encontrado")))));
+                new Usuarios(dto.getCorreo(), passwordEncoder.encode(dto.getClave()), tipoUsuario)));
 
         clientesRepository.save(cliente);
         return ClientesMapper.toDTO(cliente);

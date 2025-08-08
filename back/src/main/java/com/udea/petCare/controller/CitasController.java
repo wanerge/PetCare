@@ -39,6 +39,11 @@ public class CitasController {
         return citasService.findByClienteId(clienteId);
     }
 
+    @GetMapping("/veterinario/{veterinarioId}")
+    public List<CitasDTO> findByVeterinarioId(@PathVariable Long veterinarioId) {
+        return citasService.findByVeterinarioId(veterinarioId);
+    }
+
     @PostMapping
     public CitasDTO save(@RequestBody CitasRequestDTO citasRequestDTO) {
         return citasService.save(citasRequestDTO);

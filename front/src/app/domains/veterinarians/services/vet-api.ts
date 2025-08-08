@@ -7,22 +7,23 @@ import { Observable } from 'rxjs';
 })
 export class VetApi {
   private http = inject(HttpClient);
-  private baseUrl = 'https://your-api-url.com/api/veterinarian'; // Reemplaza con la URL de tu API
+  private baseUrl = 'http://localhost:8080/api/citas';
 
-  private getAuthHeaders(): HttpHeaders {
+  private getAuthHeaders(clienteId: string): HttpHeaders {
     const token = localStorage.getItem('vet_token');
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token ?? ''}`,
+      'clienteId': clienteId
     });
   }
 
-  getPendingAppointments(): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get(`${this.baseUrl}/appointments/pending`, { headers });
+  getPendingAppointments(clienteId: string): Observable<any> {
+    const headers = this.getAuthHeaders(clienteId);
+    return this.http.get(`${this.baseUrl}/pendientes`, { headers });
   }
 
-  getCompletedAppointments(): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get(`${this.baseUrl}/appointments/completed`, { headers });
+  getCompletedAppointments(clienteId: string): Observable<any> {
+    const headers = this.getAuthHeaders(clienteId);
+    return this.http.get(`${this.baseUrl}/completadas`, { headers });
   }
 }
