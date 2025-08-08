@@ -1,0 +1,50 @@
+<section class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>Portal del Cliente</h2>
+      <p>Inicia sesión para programar citas</p>
+    </div>
+
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <form class="form" (ngSubmit)="handleLogin()" #loginForm="ngForm">
+      <label>
+        Correo Electrónico
+        <input 
+          type="email" 
+          [(ngModel)]="loginEmail" 
+          name="loginEmail" 
+          required 
+          [disabled]="isLoading"
+        />
+      </label>
+
+      <label>
+        Contraseña
+        <input 
+          type="password" 
+          [(ngModel)]="loginPassword" 
+          name="loginPassword" 
+          required 
+          [disabled]="isLoading"
+        />
+      </label>
+
+      <button 
+        type="submit" 
+        [disabled]="isLoading || loginForm.invalid"
+        [class.loading]="isLoading"
+      >
+        @if (isLoading) {
+          <span>Iniciando sesión...</span>
+        } @else {
+          <span>Iniciar Sesión</span>
+        }
+      </button>
+    </form>
+  </div>
+</section>

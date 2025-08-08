@@ -1,0 +1,158 @@
+<div class="client-dashboard">
+  <div class="dashboard-body">
+    <div class="form-services-container">
+
+      <!-- Mensajes de estado -->
+      @if (loading) {
+        <div class="loading-message">Cargando...</div>
+      } @else if (error) {
+        <div class="error-message">{{ error }}</div>
+      } @else if (success) {
+        <div class="success-message">{{ success }}</div>
+      }
+
+      <!-- Formulario para agendar cita -->
+      <form
+        (submit)="handleScheduleAppointment($event)"
+        class="appointment-form"
+      >
+        <h2>Programar Nueva Cita</h2>
+        <p>Selecciona el servicio y horario disponible</p>
+
+        <!-- Selección de Mascota -->
+        <div class="form-group">
+          <label for="pet-select">Selecciona una mascota:</label>
+          <select
+            id="pet-select"
+            [(ngModel)]="selectedPetId"
+            name="selectedPetId"
+            [ngModelOptions]="{ standalone: true }"
+          >
+            <option value="">-- Selecciona una mascota --</option>
+            @for (pet of pets; track pet.idMascota) {
+              <option [ngValue]="pet.idMascota">{{ pet.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Selección de Veterinario -->
+        <div class="form-group">
+          <label for="veterinario-select">Selecciona un veterinario:</label>
+          <select
+            id="veterinario-select"
+            [(ngModel)]="selectedVeterinarioId"
+            name="selectedVeterinarioId"
+            [ngModelOptions]="{ standalone: true }"
+          >
+            <option value="">-- Selecciona un veterinario --</option>
+            @for (vet of veterinarios; track vet.id) {
+              <option [ngValue]="vet.id">{{ vet.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Selección de servicio -->
+        <label>Servicio</label>
+        <select
+          (change)="handleServiceSelect($event)"
+          [disabled]="loading"
+        >
+          <option value="" disabled selected>
+            @if (loading) { Cargando servicios... } @else { Selecciona un servicio }
+          </option>
+          @for (service of services; track service.id) {
+            <option [value]="service.name">
+              {{ service.name }} - {{ service.price | currency : 'COP' }}
+            </option>
+          }
+        </select>
+
+        <!-- Detalles del servicio -->
+        @if (selectedService) {
+          <div class="service-details">
+            <h3>{{ selectedService.name }}</h3>
+            <p>{{ selectedService.description }}</p>
+            <div class="price-info">
+              <span>{{ selectedService.price | currency : 'COP' }}</span>
+              <span class="badge">
+                Anticipo: {{ selectedService.price * 0.3 | currency : 'COP' }}
+              </span>
+            </div>
+          </div>
+        }
+
+        <!-- Fecha y hora -->
+        <div class="input-row">
+          <div>
+            <label>Fecha</label>
+            <select
+              [(ngModel)]="appointmentData.fecha"
+              name="fecha"
+              [disabled]="!selectedService"
+            >
+              <option value="" disabled selected>
+                @if (!selectedService) {
+                  Selecciona primero un servicio
+                } @else {
+                  @if (availableDates.length === 0) {
+                    Sin fechas disponibles
+                  } @else {
+                    Selecciona una fecha
+                  }
+                }
+              </option>
+              @for (dateSlot of availableDates; track dateSlot.date) {
+                <option [value]="dateSlot.date">
+                  {{ formatDate(dateSlot.date) }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div>
+            <label>Hora</label>
+            <select
+              [(ngModel)]="appointmentData.hora"
+              name="hora"
+              [disabled]="!appointmentData.fecha"
+            >
+              <option value="" disabled selected>
+                @if (!appointmentData.fecha) {
+                  Selecciona primero una fecha
+                } @else {
+                  @if (availableTimes.length === 0) {
+                    Sin horarios disponibles
+                  } @else {
+                    Selecciona una hora
+                  }
+                }
+              </option>
+              @for (timeSlot of availableTimes; track timeSlot.time) {
+                <option [value]="timeSlot.time">
+                  {{ timeSlot.time }}
+                </option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <!-- Mensaje de anticipo -->
+        @if (selectedService) {
+          <div class="payment-warning">
+            Se requiere pago del 30% ({{
+              selectedService.price * 0.3 | currency : 'COP'
+            }}) como anticipo para confirmar la cita
+          </div>
+        }
+
+        <!-- Botones -->
+        <div class="button-group">
+          <button (click)="confirmAppointment($event)">Confirmar</button>
+          <button type="button" (click)="sendReminder()" [disabled]="loading">
+            Enviar Recordatorio
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

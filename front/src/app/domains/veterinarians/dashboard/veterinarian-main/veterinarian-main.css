@@ -1,0 +1,17 @@
+.veterinarian-main-host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: white;
+}
+
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Base styles for router-outlet to ensure content fills the space */
+router-outlet + * {
+  flex-grow: 1;
+}

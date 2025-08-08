@@ -1,0 +1,37 @@
+<main class="container">
+  <h2>Historial de citas completadas</h2>
+  @if (loading()) {
+  <p>Cargando historial...</p>
+  } @else if (error()) {
+  <p class="error">{{ error() }}</p>
+  } @else if (history().length > 0) {
+  <section class="appointment-list">
+    @for (appointment of history(); track appointment.id) {
+    <div class="card completed">
+      <h3>Cita #{{ appointment.id }}</h3>
+      <p><strong>Cliente:</strong> {{ appointment.clienteNombre }}</p>
+      <p><strong>Mascota:</strong> {{ appointment.mascotaNombre }}</p>
+      <p><strong>Veterinario:</strong> {{ appointment.veterinarioNombre }}</p>
+      <p>
+        <strong>Fecha:</strong> {{ appointment.fecha }} {{ appointment.hora }}
+      </p>
+      <p><strong>Estado:</strong> {{ appointment.estado }}</p>
+      <strong>Servicios:</strong>
+      <ul>
+        @for (servicio of appointment.servicios; track servicio.id) {
+        <li>
+          {{ servicio.nombre }} - {{ servicio.descripcion }} (${{
+            servicio.precio
+          }})
+        </li>
+        }
+      </ul>
+    </div>
+    }
+  </section>
+  } @else {
+  <div class="no-data">
+    <p>No hay historial de citas completadas.</p>
+  </div>
+  }
+</main>
