@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 export interface Service {
@@ -11,15 +11,26 @@ export interface Service {
   category?: string;
 }
 
+export interface Pet {
+  idMascota: string;
+  nombre: string;
+  especie: string;
+}
+
+export interface Veterinario {
+  id: string;
+  nombre: string;
+  especialidad: string;
+}
+
 export interface AppointmentData {
-  serviceId: string;
-  date: string;
-  time: string;
-  petName: string;
-  petType: string;
-  ownerName: string;
-  email: string;
-  phone: string;
+  fecha: string; // "YYYY-MM-DD"
+  hora: string;  // "HH:mm"
+  idCliente: number;
+  idMascota: number;
+  idVeterinario: number;
+  idEstado: number;
+  idServicios: number[];
 }
 
 export interface Appointment extends AppointmentData {
@@ -43,106 +54,95 @@ export class ClientService {
 
   constructor(private http: HttpClient) {}
 
-  // ========== MÉTODOS DE SERVICIOS ==========
-  
+  // =================== MÉTODOS DE SERVICIOS ===================
+
   getServices(): Observable<Service[]> {
-    // Primero intenta obtener del backend
     return this.http.get<Service[]>(`${this.apiUrl}/api/servicios`);
-    // return this.getTestServices();
-    
-    // Si falla, puedes descomentar esto para datos de prueba:
-    /*
-    return of([
-      {
-        id: '1',
-        name: 'Consulta General',
-        description: 'Examen médico completo para tu mascota',
-        price: 50000,
-        duration: 30,
-        category: 'consulta'
-      },
-      {
-        id: '2',
-        name: 'Vacunación',
-        description: 'Aplicación de vacunas preventivas',
-        price: 35000,
-        duration: 15,
-        category: 'preventivo'
-      },
-      {
-        id: '3',
-        name: 'Cirugía Menor',
-        description: 'Procedimientos quirúrgicos ambulatorios',
-        price: 150000,
-        duration: 60,
-        category: 'cirugia'
-      },
-      {
-        id: '4',
-        name: 'Baño y Peluquería',
-        description: 'Servicio completo de estética canina',
-        price: 40000,
-        duration: 45,
-        category: 'estetica'
-      }
-    ]);
-    */
   }
 
   getServiceById(id: string): Observable<Service> {
     return this.http.get<Service>(`${this.apiUrl}/servicios/${id}`);
   }
 
-  // ========== MÉTODOS DE CITAS ==========
+  getHttpOptions(): any {
+    const token = localStorage.getItem('token');
+    const headers = token
+      ? new HttpHeaders().set('Authorization', `Bearer ${token}`)
+      : new HttpHeaders();
+    return { headers };
+  }
+
+  // =================== MÉTODOS DE MASCOTAS ===================
+
+  getPets(): Observable<Pet[]> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+    return this.http.get<Pet[]>(`${this.apiUrl}/api/mascotas/clientes`, { headers });
+  }
+
+  // =================== MÉTODOS DE VETERINARIOS ===================
+
+  getVeterinarios(): Observable<Veterinario[]> {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+    return this.http.get<Veterinario[]>(`${this.apiUrl}/api/veterinarios/all`, { headers });
+  }
+
+  // =================== MÉTODOS DE CITAS ===================
 
   createAppointment(appointmentData: AppointmentData): Observable<Appointment> {
-    return this.http.post<Appointment>(`${this.apiUrl}/api/citas`, appointmentData);
+    console.log("Cita Creada")
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+    return this.http.post<Appointment>(`${this.apiUrl}/api/citas`, appointmentData, { headers });
   }
 
   getUserAppointments(clienteId: number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(`${this.apiUrl}/api/citas/cliente/${clienteId}`);
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+    return this.http.get<Appointment[]>(`${this.apiUrl}/api/citas/cliente/${clienteId}`, { headers });
   }
 
   sendReminder(appointmentId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/appointments/${appointmentId}/reminder`, {});
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+    return this.http.post(`${this.apiUrl}/appointments/${appointmentId}/reminder`, {}, { headers });
   }
 
-  // ========== MÉTODOS DE UTILIDAD ==========
-  // Método para datos de prueba mientras desarrollas
-  getTestServices(): Observable<Service[]> {
-    return of([
-      {
-        id: '1',
-        name: 'Consulta General',
-        description: 'Examen médico completo para tu mascota',
-        price: 50000,
-        duration: 30,
-        category: 'consulta'
-      },
-      {
-        id: '2',
-        name: 'Vacunación',
-        description: 'Aplicación de vacunas preventivas',
-        price: 35000,
-        duration: 15,
-        category: 'preventivo'
-      },
-      {
-        id: '3',
-        name: 'Cirugía Menor',
-        description: 'Procedimientos quirúrgicos ambulatorios',
-        price: 150000,
-        duration: 60,
-        category: 'cirugia'
-      },
-      {
-        id: '4',
-        name: 'Baño y Peluquería',
-        description: 'Servicio completo de estética canina',
-        price: 40000,
-        duration: 45,
-        category: 'estetica'
-      }
-    ]);
+  // =================== MÉTODO SIMULADO PARA HORARIOS DISPONIBLES ===================
+
+  getAvailableSlots(vetId: number, fecha: string): Observable<AvailableSlot[]> {
+    // 🔥 Aquí estás devolviendo datos quemados como simulación.
+    // Cuando tu backend esté listo, reemplaza por:
+    // return this.http.get<AvailableSlot[]>(`${this.apiUrl}/api/horarios/disponibles?fecha=${fecha}&idVeterinario=${vetId}`, { headers });
+    const fakeSlots: AvailableSlot[] = [
+      { date: fecha, time: '09:00:00', available: true },
+      { date: fecha, time: '10:00:00', available: true },
+      { date: fecha, time: '11:00:00', available: true },
+      { date: fecha, time: '14:00:00', available: true },
+      { date: fecha, time: '15:00:00', available: false }, // ocupado
+      { date: fecha, time: '16:00:00', available: true }
+    ];
+    return of(fakeSlots);
   }
 }

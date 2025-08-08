@@ -1,45 +1,68 @@
 <div class="client-dashboard">
-  <!-- Encabezado -->
-
   <div class="dashboard-body">
     <div class="form-services-container">
+
       <!-- Mensajes de estado -->
       @if (loading) {
-        <div class="loading-message">
-          Cargando...
-        </div>
-      }
-      
-      @if (error) {
-        <div class="error-message">
-          {{ error }}
-        </div>
-      }
-      
-      @if (success) {
-        <div class="success-message">
-          {{ success }}
-        </div>
+        <div class="loading-message">Cargando...</div>
+      } @else if (error) {
+        <div class="error-message">{{ error }}</div>
+      } @else if (success) {
+        <div class="success-message">{{ success }}</div>
       }
 
       <!-- Formulario para agendar cita -->
-      <form (submit)="handleScheduleAppointment($event)" class="appointment-form">
+      <form
+        (submit)="handleScheduleAppointment($event)"
+        class="appointment-form"
+      >
         <h2>Programar Nueva Cita</h2>
         <p>Selecciona el servicio y horario disponible</p>
 
+        <!-- Selección de Mascota -->
+        <div class="form-group">
+          <label for="pet-select">Selecciona una mascota:</label>
+          <select
+            id="pet-select"
+            [(ngModel)]="selectedPetId"
+            name="selectedPetId"
+            [ngModelOptions]="{ standalone: true }"
+          >
+            <option value="">-- Selecciona una mascota --</option>
+            @for (pet of pets; track pet.idMascota) {
+              <option [ngValue]="pet.idMascota">{{ pet.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Selección de Veterinario -->
+        <div class="form-group">
+          <label for="veterinario-select">Selecciona un veterinario:</label>
+          <select
+            id="veterinario-select"
+            [(ngModel)]="selectedVeterinarioId"
+            name="selectedVeterinarioId"
+            [ngModelOptions]="{ standalone: true }"
+          >
+            <option value="">-- Selecciona un veterinario --</option>
+            @for (vet of veterinarios; track vet.id) {
+              <option [ngValue]="vet.id">{{ vet.nombre }}</option>
+            }
+          </select>
+        </div>
+
         <!-- Selección de servicio -->
         <label>Servicio</label>
-        <select (change)="handleServiceSelect($event)" [disabled]="loading">
+        <select
+          (change)="handleServiceSelect($event)"
+          [disabled]="loading"
+        >
           <option value="" disabled selected>
-            @if (loading) {
-              Cargando servicios...
-            } @else {
-              Selecciona un servicio
-            }
+            @if (loading) { Cargando servicios... } @else { Selecciona un servicio }
           </option>
           @for (service of services; track service.id) {
             <option [value]="service.name">
-              {{ service.name }} - {{ service.price | currency:'COP' }}
+              {{ service.name }} - {{ service.price | currency : 'COP' }}
             </option>
           }
         </select>
@@ -50,9 +73,9 @@
             <h3>{{ selectedService.name }}</h3>
             <p>{{ selectedService.description }}</p>
             <div class="price-info">
-              <span>{{ selectedService.price | currency:'COP' }}</span>
+              <span>{{ selectedService.price | currency : 'COP' }}</span>
               <span class="badge">
-                Anticipo: {{ selectedService.price * 0.3 | currency:'COP' }}
+                Anticipo: {{ selectedService.price * 0.3 | currency : 'COP' }}
               </span>
             </div>
           </div>
@@ -62,14 +85,20 @@
         <div class="input-row">
           <div>
             <label>Fecha</label>
-            <select [(ngModel)]="appointmentData.date" name="date" [disabled]="!selectedService">
+            <select
+              [(ngModel)]="appointmentData.fecha"
+              name="fecha"
+              [disabled]="!selectedService"
+            >
               <option value="" disabled selected>
                 @if (!selectedService) {
                   Selecciona primero un servicio
-                } @else if (availableDates.length === 0) {
-                  Sin fechas disponibles
                 } @else {
-                  Selecciona una fecha
+                  @if (availableDates.length === 0) {
+                    Sin fechas disponibles
+                  } @else {
+                    Selecciona una fecha
+                  }
                 }
               </option>
               @for (dateSlot of availableDates; track dateSlot.date) {
@@ -79,16 +108,23 @@
               }
             </select>
           </div>
+
           <div>
             <label>Hora</label>
-            <select [(ngModel)]="appointmentData.time" name="time" [disabled]="!appointmentData.date">
+            <select
+              [(ngModel)]="appointmentData.hora"
+              name="hora"
+              [disabled]="!appointmentData.fecha"
+            >
               <option value="" disabled selected>
-                @if (!appointmentData.date) {
+                @if (!appointmentData.fecha) {
                   Selecciona primero una fecha
-                } @else if (availableTimes.length === 0) {
-                  Sin horarios disponibles
                 } @else {
-                  Selecciona una hora
+                  @if (availableTimes.length === 0) {
+                    Sin horarios disponibles
+                  } @else {
+                    Selecciona una hora
+                  }
                 }
               </option>
               @for (timeSlot of availableTimes; track timeSlot.time) {
@@ -100,75 +136,18 @@
           </div>
         </div>
 
-        <!-- Nombre de la mascota y tipo -->
-        <div class="input-row">
-          <div>
-            <label>Nombre de la Mascota</label>
-            <input 
-              type="text" 
-              [(ngModel)]="appointmentData.petName" 
-              name="petName" 
-              required 
-              [disabled]="loading"
-            />
-          </div>
-          <div>
-            <label>Tipo de Mascota</label>
-            <select [(ngModel)]="appointmentData.petType" name="petType" [disabled]="loading">
-              <option value="perro">Perro</option>
-              <option value="gato">Gato</option>
-              <option value="ave">Ave</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Nombre propietario -->
-        <label>Nombre del Propietario</label>
-        <input 
-          type="text" 
-          [(ngModel)]="appointmentData.ownerName" 
-          name="ownerName" 
-          required 
-          [disabled]="loading"
-        />
-
-        <!-- Email -->
-        <label>Email</label>
-        <input 
-          type="email" 
-          [(ngModel)]="appointmentData.email" 
-          name="email" 
-          required 
-          [disabled]="loading"
-        />
-
-        <!-- Teléfono -->
-        <label>Teléfono</label>
-        <input 
-          type="text" 
-          [(ngModel)]="appointmentData.phone" 
-          name="phone" 
-          required 
-          [disabled]="loading"
-        />
-
         <!-- Mensaje de anticipo -->
         @if (selectedService) {
           <div class="payment-warning">
-            Se requiere pago del 30% ({{ selectedService.price * 0.3 | currency:'COP' }}) como anticipo para confirmar la cita
+            Se requiere pago del 30% ({{
+              selectedService.price * 0.3 | currency : 'COP'
+            }}) como anticipo para confirmar la cita
           </div>
         }
 
         <!-- Botones -->
         <div class="button-group">
-          <button type="submit" [disabled]="loading">
-            @if (loading) {
-              Procesando...
-            } @else {
-              Programar Cita
-            }
-          </button>
+          <button (click)="confirmAppointment($event)">Confirmar</button>
           <button type="button" (click)="sendReminder()" [disabled]="loading">
             Enviar Recordatorio
           </button>
