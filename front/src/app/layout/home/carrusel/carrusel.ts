@@ -22,7 +22,7 @@ export class CarruselComponent {
 
   private servicioService = inject(HomeApi);
 
-  servicio = signal<Servicios[]> ([]);
+  servicio : Servicios[] = [];
 
   ngOnInit(): void {
     this.loadServicios();
@@ -30,8 +30,8 @@ export class CarruselComponent {
 
   private loadServicios(): void {
     this.servicioService.getAllServicios().subscribe(servicios => {
-      this.servicio.set(servicios);
-      console.log(this.servicio());
+      this.servicio = servicios;
+      console.log(this.servicio);
       console.log(this.servicioService);
     });
   }
