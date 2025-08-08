@@ -22,6 +22,7 @@ export interface AvailableSlot {
   available: boolean;
 }
 
+// ... (imports sin cambios)
 @Component({
   selector: 'app-client-dashboard',
   standalone: true,
@@ -34,11 +35,10 @@ export interface AvailableSlot {
   styleUrls: ['./client-dashboard.css']
 })
 export class ClientDashboard implements OnInit {
-  // Datos del formulario
   services: Service[] = [];
   selectedService: Service | null = null;
   availableSlots: AvailableSlot[] = [];
-  
+
   appointmentData: AppointmentData = {
     serviceId: '',
     date: '',
@@ -50,102 +50,86 @@ export class ClientDashboard implements OnInit {
     phone: ''
   };
 
-  // Estados de carga
   loading = false;
   error = '';
   success = '';
 
-  constructor(
-    private clientServiceService: ClientService
-  ) {}
+  constructor(private clientService: ClientService) {}
 
   ngOnInit(): void {
     this.loadServices();
   }
 
-  // Cargar servicios desde el backend
-  loadServices(): void {
-    this.loading = true;
-    this.clientServiceService.getServices().subscribe({
-      next: (services) => {
-        this.services = services;
-        this.loading = false;
-      },
-      error: (error) => {
-        this.error = 'Error al cargar servicios';
-        this.loading = false;
-        console.error('Error:', error);
-      }
-    });
-  }
+loadServices(): void {
+  this.loading = true;
+  this.clientService.getServices().subscribe({
+    next: (services: any[]) => {
+      this.services = services.map(s => ({
+        id: s.id,
+        name: s.nombre,              
+        description: s.descripcion,  
+        price: s.precio,       
+        duration: s.duracion,
+        category: s.categoria
+      }));
+      this.loading = false;
+    },
+    error: (error) => {
+      this.error = 'Error al cargar servicios';
+      this.loading = false;
+      console.error('Error:', error);
+    }
+  });
+}
 
-  // Manejar selección de servicio
+
   handleServiceSelect(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const serviceName = target.value;
-    
     this.selectedService = this.services.find(s => s.name === serviceName) || null;
-    
+
     if (this.selectedService) {
       this.appointmentData.serviceId = this.selectedService.id;
-      this.loadAvailableSlots();
+      this.loadAvailableSlots(); // Esta parte se simulará por ahora
     }
   }
 
-  // Cargar horarios disponibles
   loadAvailableSlots(): void {
-    if (!this.selectedService) return;
-
-    this.clientServiceService.getAvailableSlots(this.selectedService.id).subscribe({
-      next: (slots) => {
-        this.availableSlots = slots;
-      },
-      error: (error) => {
-        console.error('Error al cargar horarios:', error);
-        // Si hay error, usar datos de prueba
-        this.availableSlots = [
-          { date: '2025-08-08', time: '10:00 AM', available: true },
-          { date: '2025-08-08', time: '2:00 PM', available: true },
-          { date: '2025-08-09', time: '9:00 AM', available: true },
-          { date: '2025-08-09', time: '11:00 AM', available: true },
-          { date: '2025-08-10', time: '10:00 AM', available: true }
-        ];
-      }
-    });
+    // ⚠️ Esto se simula, ya que tu backend no tiene esta funcionalidad
+    this.availableSlots = [
+      { date: '2025-08-08', time: '10:00 AM', available: true },
+      { date: '2025-08-08', time: '2:00 PM', available: true },
+      { date: '2025-08-09', time: '9:00 AM', available: true },
+      { date: '2025-08-09', time: '11:00 AM', available: true },
+      { date: '2025-08-10', time: '10:00 AM', available: true }
+    ];
   }
 
-  // Obtener fechas únicas disponibles
   get availableDates(): AvailableSlot[] {
-    const uniqueDates = this.availableSlots
+    return this.availableSlots
       .filter(slot => slot.available)
-      .filter((slot, index, self) => 
+      .filter((slot, index, self) =>
         index === self.findIndex(s => s.date === slot.date)
       );
-    return uniqueDates;
   }
 
-  // Obtener horas disponibles para la fecha seleccionada
   get availableTimes(): AvailableSlot[] {
     if (!this.appointmentData.date) return [];
-    
-    return this.availableSlots.filter(slot => 
+    return this.availableSlots.filter(slot =>
       slot.date === this.appointmentData.date && slot.available
     );
   }
 
-  // Manejar envío del formulario
   handleScheduleAppointment(event: Event): void {
     event.preventDefault();
-    
-    if (!this.validateForm()) {
-      return;
-    }
+
+    if (!this.validateForm()) return;
 
     this.loading = true;
     this.error = '';
     this.success = '';
 
-    this.clientServiceService.createAppointment(this.appointmentData).subscribe({
+    this.clientService.createAppointment(this.appointmentData).subscribe({
       next: (appointment) => {
         this.success = 'Cita programada exitosamente';
         this.loading = false;
@@ -160,7 +144,6 @@ export class ClientDashboard implements OnInit {
     });
   }
 
-  // Validar formulario
   validateForm(): boolean {
     if (!this.selectedService) {
       this.error = 'Selecciona un servicio';
@@ -185,13 +168,11 @@ export class ClientDashboard implements OnInit {
     return true;
   }
 
-  // Enviar recordatorio
   sendReminder(): void {
     console.log('Enviando recordatorio...');
-    // Aquí puedes implementar la lógica del recordatorio
+    // Pendiente de implementar en backend
   }
 
-  // Resetear formulario
   resetForm(): void {
     this.appointmentData = {
       serviceId: '',
@@ -207,7 +188,6 @@ export class ClientDashboard implements OnInit {
     this.availableSlots = [];
   }
 
-  // Formatear fecha para mostrar
   formatDate(dateString: string): string {
     const date = new Date(dateString);
     return date.toLocaleDateString('es-ES', {

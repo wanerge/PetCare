@@ -48,7 +48,7 @@ export class LoginCliente {
     
       localStorage.setItem('token', response); 
       this.isLoading = false;
-      this.router.navigate(['client-dashboard']);
+      this.router.navigate(['client-main']);
 
       },
       error: (error) => {

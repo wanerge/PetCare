@@ -47,10 +47,11 @@ export class ClientService {
   
   getServices(): Observable<Service[]> {
     // Primero intenta obtener del backend
-    //return this.http.get<Service[]>(`${this.apiUrl}/api/servicios`);
+    return this.http.get<Service[]>(`${this.apiUrl}/api/servicios`);
+    // return this.getTestServices();
     
     // Si falla, puedes descomentar esto para datos de prueba:
-    
+    /*
     return of([
       {
         id: '1',
@@ -85,28 +86,21 @@ export class ClientService {
         category: 'estetica'
       }
     ]);
-  
+    */
   }
 
   getServiceById(id: string): Observable<Service> {
-    return this.http.get<Service>(`${this.apiUrl}/services/${id}`);
+    return this.http.get<Service>(`${this.apiUrl}/servicios/${id}`);
   }
 
   // ========== MÉTODOS DE CITAS ==========
-  getAvailableSlots(serviceId?: string): Observable<AvailableSlot[]> {
-    const url = serviceId ? 
-      `${this.apiUrl}/appointments/available-slots?serviceId=${serviceId}` : 
-      `${this.apiUrl}/appointments/available-slots`;
-    
-    return this.http.get<AvailableSlot[]>(url);
-  }
 
   createAppointment(appointmentData: AppointmentData): Observable<Appointment> {
-    return this.http.post<Appointment>(`${this.apiUrl}/appointments`, appointmentData);
+    return this.http.post<Appointment>(`${this.apiUrl}/api/citas`, appointmentData);
   }
 
-  getUserAppointments(email: string): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(`${this.apiUrl}/appointments/user/${email}`);
+  getUserAppointments(clienteId: number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.apiUrl}/api/citas/cliente/${clienteId}`);
   }
 
   sendReminder(appointmentId: string): Observable<any> {
