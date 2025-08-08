@@ -18,9 +18,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
+      /* padding: 2rem; */
       text-align: center;
       color: #d4c7e2;
+
+      background-color: #f8f4ff; /* lavanda claro */
+      padding: 3rem 1rem;
+      min-height: 70vh;
     }
 
     .responsive-img {
