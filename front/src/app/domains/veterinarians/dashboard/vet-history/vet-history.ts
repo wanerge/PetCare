@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { VetApi } from '../../services/vet-api';
-import { DatePipe } from '@angular/common';
 
 interface ServiciosDTO {
   id: number;
@@ -27,8 +26,7 @@ interface Appointment {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'class': 'vet-history-host',
-  },
-  imports: [DatePipe]
+  }
 })
 export class VetHistory implements OnInit {
   private readonly vetApi = inject(VetApi);
